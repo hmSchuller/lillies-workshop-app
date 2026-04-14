@@ -24,29 +24,38 @@ class RNDatePickerManager :
   override fun createViewInstance(context: ThemedReactContext): DatePickerButton =
       DatePickerButton(context)
 
+  // TODO (Level 2 Android): Implement each @ReactProp setter below.
+  //
+  // Each method receives the view and a prop value from the JS side.
+  // Parse strings into Instants, map mode strings to the enum, and
+  // forward to the appropriate DatePickerButton setter.
+
   @ReactProp(name = "date")
   override fun setDate(view: DatePickerButton, date: String?) {
-    view.setDate(parseInstant(date) ?: Instant.now())
+    // TODO: Parse date ISO string into an Instant and call view.setDate(...)
+    //       Use Instant.parse(). Fall back to Instant.now() if null.
   }
 
   @ReactProp(name = "minimumDate")
   override fun setMinimumDate(view: DatePickerButton, minimumDate: String?) {
-    view.setMinimumDate(parseInstant(minimumDate))
+    // TODO: Parse minimumDate ISO string and call view.setMinimumDate(...)
+    //       Pass null when the string is null.
   }
 
   @ReactProp(name = "maximumDate")
   override fun setMaximumDate(view: DatePickerButton, maximumDate: String?) {
-    view.setMaximumDate(parseInstant(maximumDate))
+    // TODO: Parse maximumDate ISO string and call view.setMaximumDate(...)
+    //       Pass null when the string is null.
   }
 
   @ReactProp(name = "mode")
   override fun setMode(view: DatePickerButton, mode: String?) {
-    view.setMode(DatePickerButton.PickerMode.fromProp(mode))
+    // TODO: Convert mode string to DatePickerButton.PickerMode and call view.setMode(...)
   }
 
   @ReactProp(name = "accentColor", customType = "Color")
   override fun setAccentColor(view: DatePickerButton, accentColor: Int?) {
-    view.setAccentColor(accentColor)
+    // TODO: Forward the color to view.setAccentColor(...)
   }
 
   override fun getExportedCustomBubblingEventTypeConstants(): Map<String, Any> =

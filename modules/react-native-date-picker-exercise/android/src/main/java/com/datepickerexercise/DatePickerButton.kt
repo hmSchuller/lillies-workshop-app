@@ -68,143 +68,69 @@ constructor(
     updateLabel()
   }
 
+  // TODO (Level 3 Android): Implement the public setters below.
+  //
+  // Each setter is called by RNDatePickerManager when a React prop changes.
+  // After updating internal state, clamp the selected date/time to the
+  // new bounds and call updateLabel() to refresh the button text.
+
   fun setDate(instant: Instant) {
-    selectedDateTime = clamp(instant.atZone(zoneId))
-    updateLabel()
+    // TODO: Convert instant to ZonedDateTime, clamp, and store in selectedDateTime.
+    //       Then call updateLabel().
   }
 
   fun setMinimumDate(instant: Instant?) {
-    minimumDate = instant
-    selectedDateTime = clamp(selectedDateTime)
-    updateLabel()
+    // TODO: Store the new minimum, clamp selectedDateTime, call updateLabel().
   }
 
   fun setMaximumDate(instant: Instant?) {
-    maximumDate = instant
-    selectedDateTime = clamp(selectedDateTime)
-    updateLabel()
+    // TODO: Store the new maximum, clamp selectedDateTime, call updateLabel().
   }
 
   fun setMode(mode: PickerMode) {
-    this.mode = mode
-    updateLabel()
+    // TODO: Store the new mode and call updateLabel().
   }
 
   fun setAccentColor(@ColorInt color: Int?) {
-    color?.let {
-      setTextColor(it)
-    } ?: run {
-      setTextColor(defaultTextColors)
-    }
+    // TODO: Apply the color to the button text.
+    //       If color is null, restore the original defaultTextColors.
   }
 
+  // TODO (Level 3 Android): Implement the picker dialogs.
+  //
+  // openPicker() should choose the right dialog(s) based on `mode`:
+  //   - DATE     → openDatePicker(continueWithTime = false)
+  //   - TIME     → openTimePicker()
+  //   - DATETIME → openDatePicker(continueWithTime = true) then openTimePicker()
+  //
+  // openDatePicker: Use MaterialDatePicker if inside a FragmentActivity,
+  //   otherwise fall back to DatePickerDialog.
+  //   Apply min/max constraints via CalendarConstraints.
+  //   On positive click: parse the selected UTC millis to a LocalDate and call applyDateSelection.
+  //
+  // openTimePicker: Use a TimePickerDialog. On selection: build a new ZonedDateTime
+  //   from selectedDateTime + new hour/minute, clamp, and call emitAndRefresh().
+  //
+  // applyDateSelection: Merge the new LocalDate into selectedDateTime.
+  //   If continueWithTime is true, open the time picker next. Otherwise emitAndRefresh().
+
   private fun openPicker() {
-    when (mode) {
-      PickerMode.DATE -> openDatePicker(continueWithTime = false)
-      PickerMode.TIME -> openTimePicker()
-      PickerMode.DATETIME -> openDatePicker(continueWithTime = true)
-    }
+    // TODO: Implement
   }
 
   private fun openDatePicker(continueWithTime: Boolean) {
-    val fragmentActivity = findFragmentActivity()
-
-    if (fragmentActivity != null) {
-      val constraintsBuilder = CalendarConstraints.Builder()
-      val validators = mutableListOf<CalendarConstraints.DateValidator>()
-
-      minimumDate?.let {
-        constraintsBuilder.setStart(localDateAtUtcMillis(it.atZone(zoneId).toLocalDate()))
-        validators += DateValidatorPointForward.from(localDateAtUtcMillis(it.atZone(zoneId).toLocalDate()))
-      }
-
-      maximumDate?.let {
-        constraintsBuilder.setEnd(localDateAtUtcMillis(it.atZone(zoneId).toLocalDate()))
-        validators += DateValidatorPointBackward.before(localDateAtUtcMillis(it.atZone(zoneId).toLocalDate()))
-      }
-
-      if (validators.isNotEmpty()) {
-        constraintsBuilder.setValidator(CompositeDateValidator.allOf(validators))
-      }
-
-      val picker =
-          MaterialDatePicker.Builder.datePicker()
-              .setSelection(localDateAtUtcMillis(selectedDateTime.toLocalDate()))
-              .setCalendarConstraints(constraintsBuilder.build())
-              .build()
-
-      picker.addOnPositiveButtonClickListener { utcMillis ->
-        val localDate = Instant.ofEpochMilli(utcMillis).atZone(ZoneOffset.UTC).toLocalDate()
-        applyDateSelection(localDate, continueWithTime)
-      }
-
-      picker.show(fragmentActivity.supportFragmentManager, "native_date_picker")
-      return
-    }
-
-    val dialog =
-        DatePickerDialog(
-            context,
-            { _, year, monthOfYear, dayOfMonth ->
-              applyDateSelection(LocalDate.of(year, monthOfYear + 1, dayOfMonth), continueWithTime)
-            },
-            selectedDateTime.year,
-            selectedDateTime.monthValue - 1,
-            selectedDateTime.dayOfMonth,
-        )
-
-    minimumDate?.let {
-      dialog.datePicker.minDate = localDateAtSystemMillis(it.atZone(zoneId).toLocalDate())
-    }
-    maximumDate?.let {
-      dialog.datePicker.maxDate = localDateAtSystemMillis(it.atZone(zoneId).toLocalDate())
-    }
-
-    dialog.show()
+    // TODO: Implement
   }
 
   private fun openTimePicker() {
-    val dialog =
-        TimePickerDialog(
-            context,
-            { _, hourOfDay, minute ->
-              val nextDateTime =
-                  selectedDateTime
-                      .withHour(hourOfDay)
-                      .withMinute(minute)
-                      .withSecond(0)
-                      .withNano(0)
-
-              selectedDateTime = clamp(nextDateTime)
-              emitAndRefresh()
-            },
-            selectedDateTime.hour,
-            selectedDateTime.minute,
-            true,
-        )
-
-    dialog.show()
+    // TODO: Implement
   }
 
   private fun applyDateSelection(localDate: LocalDate, continueWithTime: Boolean) {
-    val nextDateTime =
-        if (continueWithTime) {
-          selectedDateTime
-              .withYear(localDate.year)
-              .withMonth(localDate.monthValue)
-              .withDayOfMonth(localDate.dayOfMonth)
-        } else {
-          localDate.atStartOfDay(zoneId)
-        }
-
-    selectedDateTime = clamp(nextDateTime)
-
-    if (continueWithTime) {
-      openTimePicker()
-    } else {
-      emitAndRefresh()
-    }
+    // TODO: Implement
   }
+
+  // ── Provided helpers (do not modify) ──────────────────────────────────────
 
   private fun emitAndRefresh() {
     updateLabel()

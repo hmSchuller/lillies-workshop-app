@@ -55,45 +55,38 @@ public final class RNDatePickerView: UIView {
   }
 
   // MARK: - @objc prop setters (names match RNDatePickerViewProtocol selectors)
+  //
+  // TODO (Level 3 iOS): Implement each setter below.
+  // Each one receives a value from the ObjC++ Fabric shell and should
+  // configure `datePicker` accordingly.
 
   /// Sets the currently selected date from an ISO 8601 string.
-  /// The date is clamped to the current minimum/maximum bounds before being applied.
+  /// Should parse the ISO string, clamp it to current min/max bounds, and
+  /// call datePicker.setDate(_:animated:false) if the value actually changed.
   @objc public func setDateISO(_ iso: String) {
-    guard let date = parseDate(from: iso) else { return }
-    let clamped = clamp(date)
-    if datePicker.date != clamped {
-      datePicker.setDate(clamped, animated: false)
-    }
+    // TODO: Implement
   }
 
   /// Sets the lower bound. Pass `nil` or an empty string to clear it.
-  /// If the current date falls below the new minimum it is clamped immediately.
+  /// After updating datePicker.minimumDate, clamp the current date if needed.
   @objc public func setMinimumDateISO(_ iso: String?) {
-    datePicker.minimumDate = iso.flatMap { parseDate(from: $0) }
-    let clamped = clamp(datePicker.date)
-    if datePicker.date != clamped {
-      datePicker.setDate(clamped, animated: false)
-    }
+    // TODO: Implement
   }
 
   /// Sets the upper bound. Pass `nil` or an empty string to clear it.
-  /// If the current date exceeds the new maximum it is clamped immediately.
+  /// After updating datePicker.maximumDate, clamp the current date if needed.
   @objc public func setMaximumDateISO(_ iso: String?) {
-    datePicker.maximumDate = iso.flatMap { parseDate(from: $0) }
-    let clamped = clamp(datePicker.date)
-    if datePicker.date != clamped {
-      datePicker.setDate(clamped, animated: false)
-    }
+    // TODO: Implement
   }
 
   /// Maps the JS mode string ("date" | "time" | "datetime") to `UIDatePicker.Mode`.
   @objc public func setPickerMode(_ mode: String) {
-    datePicker.datePickerMode = pickerMode(from: mode)
+    // TODO: Implement
   }
 
   /// Applies an optional accent/tint color. Pass `nil` to restore the system default.
   @objc public func setPickerAccentColor(_ color: UIColor?) {
-    datePicker.tintColor = color
+    // TODO: Implement
   }
 
   /// Resets all mutable state so the view can be safely reused by Fabric's recycler.
