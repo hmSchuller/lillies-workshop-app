@@ -2,9 +2,12 @@ import Foundation
 
 /// The result returned to JS after the Add Lilliebox flow completes.
 ///
-/// - `status`: "completed" | "cancelled"
-/// - `serialNumber`: the scanned/entered serial number, or nil if cancelled
-/// - `addedVia`: "qr" | "manual" | nil
+/// TODO (Level 1): Implement a robust result-pattern mapper used by native + JS.
+///
+/// Target semantics:
+/// - status: "completed" | "cancelled"
+/// - serialNumber: scanned/typed value when completed, else nil
+/// - addedVia: "qr" | "manual" | "nfc" when completed, else nil
 struct AddLillieboxResult {
     let status: String
     let serialNumber: String?
@@ -12,14 +15,17 @@ struct AddLillieboxResult {
 
     /// Converts the result to a dictionary suitable for resolving an RCT promise.
     func toDictionary() -> [String: Any] {
-        var dict: [String: Any] = ["status": status]
-        dict["serialNumber"] = serialNumber ?? NSNull()
-        dict["addedVia"] = addedVia ?? NSNull()
-        return dict
+        // TODO: Map all fields correctly (including explicit NSNull for nil values).
+        return [
+            "status": "cancelled",
+            "serialNumber": NSNull(),
+            "addedVia": NSNull(),
+        ]
     }
 
     /// Convenience factory for a cancelled result.
     static var cancelled: AddLillieboxResult {
+        // TODO: Return the canonical cancelled shape.
         AddLillieboxResult(status: "cancelled", serialNumber: nil, addedVia: nil)
     }
 }

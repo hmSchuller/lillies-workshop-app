@@ -1,7 +1,11 @@
 import SwiftUI
 
-/// The first screen of the Add Lilliebox flow.
-/// Offers three actions: scan via QR code, enter manually, or cancel.
+/// TODO (Level 3 iOS): Build the first SwiftUI screen of the flow.
+///
+/// Requirements:
+/// - Offer action buttons for QR + manual entry
+/// - Call onCancel to cancel whole flow from root screen
+/// - Keep app styling consistent with workshop design tokens/colors
 struct InputSelectionView: View {
 
     var onSelectQR: () -> Void
@@ -9,47 +13,19 @@ struct InputSelectionView: View {
     var onCancel: () -> Void
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Wie möchtest du deine Lilliebox hinzufügen?")
+        VStack(spacing: 16) {
+            Text("Lilliebox hinzufügen")
                 .font(.title3)
                 .fontWeight(.semibold)
-                .foregroundColor(Color(red: 0x1e / 255, green: 0x29 / 255, blue: 0x39 / 255))
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-                .padding(.top, 32)
 
-            Button {
-                onSelectQR()
-            } label: {
-                Label("QR-Code scannen", systemImage: "qrcode.viewfinder")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color(red: 0xc8 / 255, green: 0xdf / 255, blue: 0xc0 / 255))
-                    .foregroundColor(Color(red: 0x1e / 255, green: 0x29 / 255, blue: 0x39 / 255))
-                    .cornerRadius(12)
-            }
-            .padding(.horizontal)
+            Text("InputSelectionView not implemented")
+                .foregroundColor(.secondary)
 
-            Button {
-                onSelectManual()
-            } label: {
-                Label("Seriennummer eingeben", systemImage: "keyboard")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color(red: 0xc8 / 255, green: 0xdf / 255, blue: 0xc0 / 255))
-                    .foregroundColor(Color(red: 0x1e / 255, green: 0x29 / 255, blue: 0x39 / 255))
-                    .cornerRadius(12)
-            }
-            .padding(.horizontal)
-
-            Button("Abbrechen") {
-                onCancel()
-            }
-            .foregroundColor(Color(red: 0xd3 / 255, green: 0x0f / 255, blue: 0x2d / 255))
-            .padding(.top, 8)
-
-            Spacer()
+            Button("QR auswählen") { onSelectQR() }
+            Button("Manuell auswählen") { onSelectManual() }
+            Button("Abbrechen") { onCancel() }
         }
+        .padding(24)
         .navigationTitle("Lilliebox hinzufügen")
         .navigationBarTitleDisplayMode(.inline)
     }

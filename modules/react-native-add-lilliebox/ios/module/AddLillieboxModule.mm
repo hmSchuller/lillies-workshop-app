@@ -35,38 +35,16 @@ RCT_EXPORT_MODULE()
 
 - (void)launchAddLilliebox:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject
 {
-  if (self->_isPresenting) {
-    reject(@"E_LILLIEBOX_IN_PROGRESS", @"The Add Lilliebox flow is already open.", nil);
-    return;
-  }
-
-  UIViewController *topVC = RCTPresentedViewController();
-  if (topVC == nil) {
-    reject(@"E_NO_VIEW_CONTROLLER", @"Could not find a top view controller to present on.", nil);
-    return;
-  }
-
-  self->_isPresenting = YES;
-
-  __block __weak UIViewController *weakHostingController = nil;
-  AddLillieboxFlowFactory *factory = [AddLillieboxFlowFactory new];
-  UIViewController *hostingController = [factory makeHostingControllerWithOnComplete:^(NSDictionary *result) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-      self->_isPresenting = NO;
-      UIViewController *vc = weakHostingController;
-      if (vc) {
-          [vc dismissViewControllerAnimated:YES completion:^{
-              resolve(result);
-          }];
-      } else {
-          // VC already dismissed by the system — resolve immediately
-          resolve(result);
-      }
-    });
-  }];
-  weakHostingController = hostingController;
-
-  [topVC presentViewController:hostingController animated:YES completion:nil];
+  // TODO (Level 2 iOS): Native owns the flow presentation.
+  //
+  // Suggested implementation steps:
+  //  1) Guard re-entry with _isPresenting
+  //  2) Read top presented VC via RCTPresentedViewController()
+  //  3) Build the Swift flow VC using AddLillieboxFlowFactory
+  //  4) Present it modally
+  //  5) On completion, dismiss and resolve the JS promise with NSDictionary result
+  
+  reject(@"E_NOT_IMPLEMENTED", @"AddLilliebox iOS flow not implemented in exercise stub.", nil);
 }
 
 @end

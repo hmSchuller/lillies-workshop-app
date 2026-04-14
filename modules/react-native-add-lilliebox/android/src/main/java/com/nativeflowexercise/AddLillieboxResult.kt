@@ -10,40 +10,37 @@ private const val KEY_SERIAL_NUMBER = "serialNumber"
 private const val KEY_ADDED_VIA = "addedVia"
 
 data class AddLillieboxResult(
-    val status: String,       // "completed" | "cancelled"
+    val status: String,
     val serialNumber: String?,
-    val addedVia: String?     // "qr" | "manual" | "nfc" | null
+    val addedVia: String?,
 ) {
 
-    /** Pack into a Bundle for use with Activity.setResult(). */
+    /** TODO (Level 1): Pack into a Bundle for Activity.setResult(). */
     fun toBundle(): Bundle = Bundle().apply {
-        putString(KEY_STATUS, status)
-        serialNumber?.let { putString(KEY_SERIAL_NUMBER, it) }
-        addedVia?.let { putString(KEY_ADDED_VIA, it) }
+        // TODO: include all fields with stable keys.
+        putString(KEY_STATUS, "cancelled")
     }
 
-    /** Build a WritableMap for resolving a React Native promise. */
+    /** TODO (Level 1): Convert to WritableMap for JS promise resolution. */
     fun toWritableMap(): WritableMap = Arguments.createMap().apply {
-        putString(KEY_STATUS, status)
-        serialNumber?.let { putString(KEY_SERIAL_NUMBER, it) } ?: putNull(KEY_SERIAL_NUMBER)
-        addedVia?.let { putString(KEY_ADDED_VIA, it) } ?: putNull(KEY_ADDED_VIA)
+        // TODO: map all fields and preserve null values explicitly.
+        putString(KEY_STATUS, "cancelled")
+        putNull(KEY_SERIAL_NUMBER)
+        putNull(KEY_ADDED_VIA)
     }
 
     companion object {
-        /** Sentinel value returned whenever the flow is cancelled or no data is available. */
         val CANCELLED = AddLillieboxResult("cancelled", null, null)
 
         /**
-         * Reconstruct from an Activity result [Intent].
-         *
-         * Returns [CANCELLED] when the intent is null or missing the expected extras —
-         * this covers both explicit cancellations and system back-presses that never
-         * called [setResult].
+         * TODO (Level 1): Reconstruct from Activity result Intent.
+         * Return CANCELLED for null/missing/invalid payloads.
          */
         fun fromIntent(intent: Intent?): AddLillieboxResult {
             val bundle = intent?.extras ?: return CANCELLED
+            val status = bundle.getString(KEY_STATUS) ?: return CANCELLED
             return AddLillieboxResult(
-                status = bundle.getString(KEY_STATUS) ?: return CANCELLED,
+                status = status,
                 serialNumber = bundle.getString(KEY_SERIAL_NUMBER),
                 addedVia = bundle.getString(KEY_ADDED_VIA),
             )
