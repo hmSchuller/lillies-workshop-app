@@ -1,0 +1,21 @@
+{
+  "name": "react-native-date-picker-exercise",
+  "version": "0.0.1",
+  "description": "Workshop Fabric date picker exercise",
+  "private": true,
+  "codegenConfig": {
+    "name": "RNDatePickerExerciseSpec",
+    "type": "components",
+    "jsSrcsDir": "spec",
+    "ios": {
+      "components": {
+        "NativeDatePickerView": {
+          "className": "RNDatePickerFabricView"
+        }
+      }
+    },
+    "android": {
+      "javaPackageName": "com.datepickerexercise"
+    }
+  }
+}

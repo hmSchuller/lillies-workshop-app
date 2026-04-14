@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: "com.android.library"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
+
+android {
+    compileSdk = 35
+    namespace = "com.datepickerexercise"
+
+    defaultConfig {
+        minSdk = 24
+    }
+
+    buildFeatures {
+        prefab = true
+    }
+}
+
+dependencies {
+    implementation("com.facebook.react:react-android")
+    implementation("com.google.android.material:material:1.12.0")
+}

@@ -1,0 +1,32 @@
+{
+  "name": "lillie-shaker",
+  "version": "0.1.0",
+  "description": "Shake gesture detection module — workshop exercise (lillie-shaker)",
+  "author": "Netlight",
+  "homepage": "https://github.com/netlight/lillie-shaker",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "lint": "expo-module lint",
+    "expo-module": "expo-module"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "shake",
+    "lillie-shaker"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "~19.1.1",
+    "expo-module-scripts": "^55.0.2",
+    "expo": "^55.0.14",
+    "react-native": "0.83.4"
+  },
+  "peerDependencies": {
+    "expo-modules-core": "*",
+    "react": "*",
+    "react-native": "*"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["LillieShakerModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.lillieshaker.LillieShakerModule"]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "react-native-add-lilliebox",
+  "version": "0.0.1",
+  "description": "TurboModule exercise: Add Lilliebox native flow",
+  "main": "js/index.ts",
+  "codegenConfig": {
+    "name": "RNAddLillieboxSpec",
+    "type": "modules",
+    "jsSrcsDir": "js",
+    "android": {
+      "javaPackageName": "com.nativeflowexercise"
+    }
+  },
+  "peerDependencies": {
+    "react-native": ">=0.73.0"
+  }
+}
