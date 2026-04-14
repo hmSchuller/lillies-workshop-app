@@ -8,13 +8,13 @@ import UIKit
 ///
 /// All methods are `@objc` so that ObjC++ can call them on the concrete type.
 @objc(RNDatePickerView)
-final class RNDatePickerView: UIView, RNDatePickerViewProtocol {
+public final class RNDatePickerView: UIView {
 
   // MARK: - Public interface (called from ObjC++ via RNDatePickerViewProtocol)
 
   /// Invoked on the main thread whenever the user selects a new date.
   /// The string is an ISO 8601 date with milliseconds, e.g. "2024-06-15T00:00:00.000Z".
-  @objc var onChange: ((String) -> Void)?
+  @objc public var onChange: ((String) -> Void)?
 
   // MARK: - Private state
 
@@ -35,12 +35,12 @@ final class RNDatePickerView: UIView, RNDatePickerViewProtocol {
 
   // MARK: - Initialisation
 
-  override init(frame: CGRect) {
+  public override init(frame: CGRect) {
     super.init(frame: frame)
     setupPicker()
   }
 
-  required init?(coder: NSCoder) {
+  public required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
@@ -58,7 +58,7 @@ final class RNDatePickerView: UIView, RNDatePickerViewProtocol {
 
   /// Sets the currently selected date from an ISO 8601 string.
   /// The date is clamped to the current minimum/maximum bounds before being applied.
-  @objc func setDateISO(_ iso: String) {
+  @objc public func setDateISO(_ iso: String) {
     guard let date = parseDate(from: iso) else { return }
     let clamped = clamp(date)
     if datePicker.date != clamped {
@@ -68,7 +68,7 @@ final class RNDatePickerView: UIView, RNDatePickerViewProtocol {
 
   /// Sets the lower bound. Pass `nil` or an empty string to clear it.
   /// If the current date falls below the new minimum it is clamped immediately.
-  @objc func setMinimumDateISO(_ iso: String?) {
+  @objc public func setMinimumDateISO(_ iso: String?) {
     datePicker.minimumDate = iso.flatMap { parseDate(from: $0) }
     let clamped = clamp(datePicker.date)
     if datePicker.date != clamped {
@@ -78,7 +78,7 @@ final class RNDatePickerView: UIView, RNDatePickerViewProtocol {
 
   /// Sets the upper bound. Pass `nil` or an empty string to clear it.
   /// If the current date exceeds the new maximum it is clamped immediately.
-  @objc func setMaximumDateISO(_ iso: String?) {
+  @objc public func setMaximumDateISO(_ iso: String?) {
     datePicker.maximumDate = iso.flatMap { parseDate(from: $0) }
     let clamped = clamp(datePicker.date)
     if datePicker.date != clamped {
@@ -87,17 +87,17 @@ final class RNDatePickerView: UIView, RNDatePickerViewProtocol {
   }
 
   /// Maps the JS mode string ("date" | "time" | "datetime") to `UIDatePicker.Mode`.
-  @objc func setPickerMode(_ mode: String) {
+  @objc public func setPickerMode(_ mode: String) {
     datePicker.datePickerMode = pickerMode(from: mode)
   }
 
   /// Applies an optional accent/tint color. Pass `nil` to restore the system default.
-  @objc func setPickerAccentColor(_ color: UIColor?) {
+  @objc public func setPickerAccentColor(_ color: UIColor?) {
     datePicker.tintColor = color
   }
 
   /// Resets all mutable state so the view can be safely reused by Fabric's recycler.
-  @objc func resetForRecycle() {
+  @objc public func resetForRecycle() {
     datePicker.minimumDate = nil
     datePicker.maximumDate = nil
     datePicker.tintColor = nil

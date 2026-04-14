@@ -3496,7 +3496,7 @@ SPEC CHECKSUMS:
   ReactCodegen: 5f11b1e16f48dea0a9a858fe6834a6fbd0e93334
   ReactCommon: 0f7a365837f2dbec4342e458c1c1d3876683f492
   RNAddLilliebox: b265adbba16850eaac7190d2c07ccafa2a221a7e
-  RNDatePickerFabric: dc0faa52e5f8528c75c9611ac39cc90ecffd6371
+  RNDatePickerFabric: b8905620ea9ddf88c3605ed63240db13a8bade84
   RNGestureHandler: 3776deb1fd8fe839a663fc60b7336e50c5f764ff
   RNReanimated: 6b69a94db352e4dae7eb540f6fab60ff05c18508
   RNScreens: ec8bdc9f024d5828e5adf4f5e8870d5260cff616

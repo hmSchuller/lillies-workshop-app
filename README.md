@@ -69,7 +69,7 @@ lillies-app/
 
 ## Exercises
 
-Each module in `modules/` is a self-contained exercise. Open its `README.md` to get started.
+Each module in `modules/` is a self-contained exercise.
 
 | Module | Exercise | Native technology |
 |--------|----------|-------------------|
