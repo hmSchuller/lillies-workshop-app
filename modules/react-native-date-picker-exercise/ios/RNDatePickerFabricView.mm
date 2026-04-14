@@ -1,5 +1,5 @@
 #import "RNDatePickerFabricView.h"
-#import "RNDatePickerViewProtocol.h"
+#import "RNDatePickerFabric-Swift.h"
 
 #import <React/RCTConversions.h>
 
@@ -29,9 +29,7 @@ static NSString *RNDPModeString(NativeDatePickerViewMode mode)
 
 @implementation RNDatePickerFabricView {
   /// Swift UIView subclass that owns all UIDatePicker logic.
-  /// Located at runtime via NSClassFromString so that the Swift class can live
-  /// in the host app target rather than in the pod.
-  UIView<RNDatePickerViewProtocol> *_pickerView;
+  RNDatePickerView *_pickerView;
 }
 
 // MARK: - Fabric registration
@@ -48,16 +46,7 @@ static NSString *RNDPModeString(NativeDatePickerViewMode mode)
   if (self = [super initWithFrame:frame]) {
     _props = NativeDatePickerViewShadowNode::defaultSharedProps();
 
-    // Locate the Swift view class in the host app target at runtime.
-    // The unqualified name works when the host module name matches "RNDatePickerView",
-    // otherwise we fall back to the fully-qualified "DatePickerWorkshop.RNDatePickerView".
-    Class viewClass = NSClassFromString(@"RNDatePickerView");
-    if (!viewClass) {
-      viewClass = NSClassFromString(@"DatePickerWorkshop.RNDatePickerView");
-    }
-    NSAssert(viewClass != nil, @"RNDatePickerView Swift class not found. Make sure it exists in the app target.");
-
-    _pickerView = (UIView<RNDatePickerViewProtocol> *)[[viewClass alloc] initWithFrame:self.bounds];
+    _pickerView = [[RNDatePickerView alloc] initWithFrame:self.bounds];
     self.contentView = _pickerView;
 
     // Wire the Swift picker's user-interaction callback to the Fabric event emitter.

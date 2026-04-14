@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.authors      = "Workshop"
   s.platforms    = { :ios => "15.0" }
   s.source       = { :path => "." }
-  s.source_files = "ios/**/*.{h,m,mm}"
+  s.source_files = "ios/**/*.{h,m,mm,swift}"
 
   s.pod_target_xcconfig = {
     # Standard C++20 for React Native Fabric headers.

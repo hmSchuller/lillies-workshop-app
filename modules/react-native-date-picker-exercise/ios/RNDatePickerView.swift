@@ -2,14 +2,11 @@ import UIKit
 
 /// Plain UIView subclass that owns all UIDatePicker logic.
 ///
-/// This class lives in the host app target so that the pod can remain pure ObjC++.
-/// The ObjC++ shell (`RNDatePickerFabricView`) locates this class at runtime via
-/// `NSClassFromString(@"RNDatePickerView")` and communicates with it through the
-/// `RNDatePickerViewProtocol` protocol defined in the pod.
+/// Lives in the pod alongside `RNDatePickerFabricView`. The ObjC++ shell imports
+/// `RNDatePickerFabric-Swift.h` and instantiates this class directly — no
+/// `NSClassFromString` or runtime protocol cast needed.
 ///
-/// Method names intentionally match the protocol selectors so that the ObjC++
-/// side can safely cast to `id<RNDatePickerViewProtocol>` without importing any
-/// Swift-generated header.
+/// All methods are `@objc` so that ObjC++ can call them on the concrete type.
 @objc(RNDatePickerView)
 final class RNDatePickerView: UIView, RNDatePickerViewProtocol {
 

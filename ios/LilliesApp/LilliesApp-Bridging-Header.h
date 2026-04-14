@@ -9,6 +9,6 @@
 #define LilliesApp_Bridging_Header_h
 
 // LilliesApp-Bridging-Header.h
-#import <RNDatePickerFabric/RNDatePickerViewProtocol.h>
+// Add Objective-C headers here to expose them to Swift.
 
 #endif /* LilliesApp_Bridging_Header_h */
