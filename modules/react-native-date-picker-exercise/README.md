@@ -2,8 +2,8 @@
 
 Build a cross-platform date picker as a **Fabric Native Component**.
 
-The Codegen spec, registration boilerplate, and example screen are already provided.
-Your job is to fill in the implementation — how deep you go is up to you.
+Starter stubs are provided for every layer.
+You should implement the exercise in order: **spec → codegen → wiring → native UI**.
 
 ---
 
@@ -11,7 +11,7 @@ Your job is to fill in the implementation — how deep you go is up to you.
 
 | File | Purpose | Status |
 |------|---------|--------|
-| `spec/NativeDatePickerViewNativeComponent.ts` | Codegen spec — defines the native component's props & events | ✅ Complete |
+| `spec/NativeDatePickerViewNativeComponent.ts` | Codegen spec starter (you complete it) | 🧩 Stub |
 | `js/DatePickerExample.tsx` | Example screen that uses the `<DatePicker>` wrapper | ✅ Complete |
 | `ios/RNDatePickerFabricView.h` | Header for the ObjC++ Fabric shell | ✅ Complete |
 | `ios/RNDatePickerViewProtocol.h` | ObjC protocol the Swift view conforms to | ✅ Complete |
@@ -24,6 +24,7 @@ Your job is to fill in the implementation — how deep you go is up to you.
 
 | Level | File | What to do |
 |-------|------|------------|
+| **0 — Spec + Codegen** | `spec/NativeDatePickerViewNativeComponent.ts` | Define native props/events and run codegen |
 | **1 — JS wiring** | `js/DatePicker.tsx` | Bridge the JS Date API to native ISO strings |
 | **2 — Native bridge** | `ios/RNDatePickerFabricView.mm` | Wire Fabric props → Swift view (+ onChange → JS) |
 | | `android/.../RNDatePickerManager.kt` | Wire `@ReactProp` setters to the view |
@@ -31,9 +32,9 @@ Your job is to fill in the implementation — how deep you go is up to you.
 | | `android/.../DatePickerButton.kt` | Implement setters + picker dialog logic |
 
 > **Choose your own adventure:**
-> - Start at **Level 1** if you want to focus on the JS → native boundary.
-> - Start at **Level 2** if you also want to understand the Fabric/ViewManager bridge.
-> - Start at **Level 3** if you want the full experience including native platform UI.
+> - Start at **Level 0** if you want the complete experience (spec + codegen included).
+> - Start at **Level 1** if you want to skip spec setup and focus on JS → native wiring.
+> - Continue to **Level 2/3** if you want to implement native bridge + UI internals.
 
 ---
 
@@ -62,6 +63,73 @@ Your job is to fill in the implementation — how deep you go is up to you.
    │                 │                   │ (MaterialPicker) │
    └─────────────────┘                   └──────────────────┘
 ```
+
+---
+
+## Level 0 — Spec + Codegen (`spec/NativeDatePickerViewNativeComponent.ts`)
+
+### 🟢 Hint 1: What to define in the spec
+
+In the Codegen spec you need:
+
+- A `DatePickerMode` union: `'date' | 'time' | 'datetime'`
+- A change event payload: `{ date: string }`
+- Native props:
+  - `date: string` (required)
+  - `minimumDate?: string`
+  - `maximumDate?: string`
+  - `mode?: WithDefault<DatePickerMode, 'date'>`
+  - `accentColor?: ColorValue`
+  - `onChange?: BubblingEventHandler<...> | null`
+
+### 🟡 Hint 2: Run codegen after editing the spec
+
+From project root:
+
+```sh
+npx react-native codegen --platform all
+```
+
+Then regenerate iOS integration:
+
+```sh
+cd ios && pod install && cd ..
+```
+
+### 🔴 Hint 3: Full solution
+
+<details>
+<summary>Click to reveal — <code>spec/NativeDatePickerViewNativeComponent.ts</code></summary>
+
+```ts
+import type {ColorValue, HostComponent, ViewProps} from 'react-native';
+import type {
+  BubblingEventHandler,
+  WithDefault,
+} from 'react-native/Libraries/Types/CodegenTypes';
+import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
+
+export type DatePickerMode = 'date' | 'time' | 'datetime';
+
+export type DatePickerChangeEvent = Readonly<{
+  date: string;
+}>;
+
+export interface NativeProps extends ViewProps {
+  date: string;
+  minimumDate?: string;
+  maximumDate?: string;
+  mode?: WithDefault<DatePickerMode, 'date'>;
+  accentColor?: ColorValue;
+  onChange?: BubblingEventHandler<DatePickerChangeEvent> | null;
+}
+
+export default codegenNativeComponent<NativeProps>(
+  'NativeDatePickerView',
+) as HostComponent<NativeProps>;
+```
+
+</details>
 
 ---
 
@@ -683,14 +751,17 @@ private fun applyDateSelection(localDate: LocalDate, continueWithTime: Boolean) 
 
 ## Testing your implementation
 
-After implementing each level, rebuild and run:
+After implementing each level, regenerate artifacts, then rebuild:
 
 ```sh
-# iOS
+# 1) Generate native artifacts from the spec
+npx react-native codegen --platform all
+
+# 2) iOS integration
 cd ios && pod install && cd ..
 yarn ios
 
-# Android
+# 3) Android
 yarn android
 ```
 
@@ -707,7 +778,7 @@ The **DatePicker example** is on the **Meins** tab → **Setup Lilliebox** secti
 
 | Problem | Fix |
 |---------|-----|
-| `NativeDatePickerView` not found at runtime | Make sure the Codegen ran: `cd ios && pod install` or rebuild Android |
+| `NativeDatePickerView` not found at runtime | Run `npx react-native codegen --platform all`, then `cd ios && pod install` and rebuild |
 | iOS picker renders but doesn't emit events | Check that the `onChange` block is wired in `initWithFrame:` |
 | Android picker shows but date doesn't update | Check that `emitChange` is called after `selectedDateTime` is updated |
 | Build error in `.mm` file | Make sure you're comparing against `*_props` (old) not `*oldProps` |

@@ -4,6 +4,7 @@ import {Text, View} from 'react-native';
 
 // TODO (Level 1): Import NativeDatePickerView from the Codegen spec.
 // The spec is at ../spec/NativeDatePickerViewNativeComponent
+// If you just changed the spec, run: npx react-native codegen --platform all
 // import NativeDatePickerView from '../spec/NativeDatePickerViewNativeComponent';
 
 export type DatePickerMode = 'date' | 'time' | 'datetime';
