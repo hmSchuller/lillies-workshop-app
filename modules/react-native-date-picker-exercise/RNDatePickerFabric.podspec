@@ -12,6 +12,11 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => "15.0" }
   s.source       = { :path => "." }
   s.source_files = "ios/**/*.{h,m,mm,swift}"
+  # Hide the Fabric view header from the Swift-visible umbrella.
+  # RCTViewComponentView.h (pulled in transitively) contains C++ Fabric renderer
+  # headers that the Swift compiler cannot handle. ObjC++ files in the pod still
+  # access it via the regular relative #import path.
+  s.private_header_files = "ios/RNDatePickerFabricView.h"
 
   s.pod_target_xcconfig = {
     # Standard C++20 for React Native Fabric headers.
