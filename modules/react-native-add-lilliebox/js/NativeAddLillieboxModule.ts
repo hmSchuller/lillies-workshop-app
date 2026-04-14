@@ -1,15 +1,15 @@
 import type {TurboModule} from 'react-native';
 import {TurboModuleRegistry} from 'react-native';
 
-// TODO (Level 0): tighten this to a strict union type.
-// final expected: 'completed' | 'cancelled'
-export type AddLillieboxStatus = string;
+// TODO (Level 0): tighten this to the exact status union.
+// Expected final: 'completed' | 'cancelled'
+export type AddLillieboxStatus = never;
 
-// TODO (Level 0): tighten this to a strict union type.
-// final expected: 'qr' | 'manual' | 'nfc' | null
-export type AddLillieboxAddedVia = string | null;
+// TODO (Level 0): tighten this to the exact added-via union.
+// Expected final: 'qr' | 'manual' | 'nfc' | null
+export type AddLillieboxAddedVia = never;
 
-// TODO (Level 0): Define the strict result contract used across JS + native.
+// TODO (Level 0): define the strict result contract used across JS + native.
 export interface AddLillieboxResult {
   status: AddLillieboxStatus;
   serialNumber: string | null;
