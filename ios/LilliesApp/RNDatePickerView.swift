@@ -11,7 +11,7 @@ import UIKit
 /// side can safely cast to `id<RNDatePickerViewProtocol>` without importing any
 /// Swift-generated header.
 @objc(RNDatePickerView)
-final class RNDatePickerView: UIView {
+final class RNDatePickerView: UIView, RNDatePickerViewProtocol {
 
   // MARK: - Public interface (called from ObjC++ via RNDatePickerViewProtocol)
 

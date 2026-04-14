@@ -25,6 +25,7 @@
 		3B4392A12AC88292D35C810B /* Pods-LilliesApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LilliesApp.debug.xcconfig"; path = "Target Support Files/Pods-LilliesApp/Pods-LilliesApp.debug.xcconfig"; sourceTree = "<group>"; };
 		3F0D70572EFB0A9300A6D6A1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = LilliesApp/AppDelegate.swift; sourceTree = "<group>"; };
 		3FB332FCC7E577BE642222D5 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-LilliesApp/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		4EBAC7042F8E822B003042B1 /* LilliesApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "LilliesApp-Bridging-Header.h"; path = "LilliesApp/LilliesApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-LilliesApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LilliesApp.release.xcconfig"; path = "Target Support Files/Pods-LilliesApp/Pods-LilliesApp.release.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-LilliesApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LilliesApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = LilliesApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -58,6 +59,7 @@
 			children = (
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				3F0D70572EFB0A9300A6D6A1 /* AppDelegate.swift */,
+				4EBAC7042F8E822B003042B1 /* LilliesApp-Bridging-Header.h */,
 				B1C2D3E4F5A6B7C8D9E0F1A2 /* RNDatePickerView.swift */,
 				C2D3E4F5A6B7C8D9E0F1A2B3 /* SentryBootstrap.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -219,9 +221,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-LilliesApp/Pods-LilliesApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-LilliesApp/Pods-LilliesApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -233,7 +239,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputPaths = (
+			);
 			name = "[CP-User] Sign Hermes Framework";
+			outputPaths = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/../sign_hermes.sh\"";
@@ -291,9 +301,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-LilliesApp/Pods-LilliesApp-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-LilliesApp/Pods-LilliesApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -362,6 +376,7 @@
 				PRODUCT_NAME = LilliesApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_OBJC_BRIDGING_HEADER = "LilliesApp/LilliesApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -398,6 +413,7 @@
 				PRODUCT_NAME = LilliesApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_OBJC_BRIDGING_HEADER = "LilliesApp/LilliesApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
