@@ -3,10 +3,10 @@
 
 #import <React/RCTConversions.h>
 
-#import <react/renderer/components/RNDatePickerExerciseSpec/ComponentDescriptors.h>
-#import <react/renderer/components/RNDatePickerExerciseSpec/EventEmitters.h>
-#import <react/renderer/components/RNDatePickerExerciseSpec/Props.h>
-#import <react/renderer/components/RNDatePickerExerciseSpec/RCTComponentViewHelpers.h>
+#import <react/renderer/components/NativeDatePickerView/ComponentDescriptors.h>
+#import <react/renderer/components/NativeDatePickerView/EventEmitters.h>
+#import <react/renderer/components/NativeDatePickerView/Props.h>
+#import <react/renderer/components/NativeDatePickerView/RCTComponentViewHelpers.h>
 
 using namespace facebook::react;
 
