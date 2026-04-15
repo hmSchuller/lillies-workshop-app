@@ -66,6 +66,46 @@ You should implement the exercise in order: **spec → codegen → wiring → na
 
 ---
 
+## References
+
+### React Native New Architecture — Fabric Native Components
+
+| Topic | Link |
+|---|---|
+| New Architecture overview | https://reactnative.dev/docs/the-new-architecture/landing-page |
+| Fabric Native Components — full guide | https://reactnative.dev/docs/fabric-native-components-introduction |
+| Codegen — TypeScript spec format | https://reactnative.dev/docs/the-new-architecture/what-is-codegen |
+| Running Codegen manually | https://reactnative.dev/docs/the-new-architecture/using-codegen |
+
+### JS layer
+
+| Topic | Link |
+|---|---|
+| `Date.toISOString()` | https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString |
+| React Native `ViewProps` | https://reactnative.dev/docs/view#props |
+
+### iOS
+
+| Topic | Link |
+|---|---|
+| Fabric Native Components — iOS implementation guide | https://reactnative.dev/docs/fabric-native-components-ios |
+| `UIDatePicker` | https://developer.apple.com/documentation/uikit/uidatepicker |
+| `UIDatePicker.datePickerMode` | https://developer.apple.com/documentation/uikit/uidatepicker/1615997-datepickermode |
+| `UIDatePicker.addTarget(_:action:for:)` — value changed event | https://developer.apple.com/documentation/uikit/uicontrol/1618259-addtarget |
+| `ISO8601DateFormatter` | https://developer.apple.com/documentation/foundation/iso8601dateformatter |
+
+### Android
+
+| Topic | Link |
+|---|---|
+| Fabric Native Components — Android implementation guide | https://reactnative.dev/docs/fabric-native-components-android |
+| `SimpleViewManager` / `ViewManagerDelegate` | https://reactnative.dev/docs/fabric-native-components-android |
+| `DatePickerDialog` | https://developer.android.com/reference/android/app/DatePickerDialog |
+| `TimePickerDialog` | https://developer.android.com/reference/android/app/TimePickerDialog |
+| Material `MaterialDatePicker` (bonus) | https://developer.android.com/reference/com/google/android/material/datepicker/MaterialDatePicker |
+
+---
+
 ## Level 0 — Spec + Codegen (`spec/NativeDatePickerViewNativeComponent.ts`)
 
 ### 🟢 Hint 1: What to define in the spec
