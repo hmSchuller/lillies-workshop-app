@@ -5,17 +5,26 @@ import type {
 } from 'react-native/Libraries/Types/CodegenTypes';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 
-export type DatePickerMode = 'date' | 'time' | 'datetime';
+// TODO (Level 0): Define the mode union used by JS + native codegen.
+// Expected values: 'date' | 'time' | 'datetime'
+export type DatePickerMode = never;
 
-export type DatePickerChangeEvent = Readonly<{date: string}>;
+// TODO (Level 0): Define the event payload emitted by native on date changes.
+// Expected shape: { date: string }
+export type DatePickerChangeEvent = Readonly<{}>;
 
+// TODO (Level 0): Define the native props contract.
+//
+// Required:
+//  - date: string
+// Optional:
+//  - minimumDate?: string
+//  - maximumDate?: string
+//  - mode?: WithDefault<DatePickerMode, 'date'>
+//  - accentColor?: ColorValue
+//  - onChange?: BubblingEventHandler<DatePickerChangeEvent> | null
 export interface NativeProps extends ViewProps {
-  date: string;
-  minimumDate?: string;
-  maximumDate?: string;
-  mode?: WithDefault<DatePickerMode, 'date'>;
-  accentColor?: ColorValue;
-  onChange?: BubblingEventHandler<DatePickerChangeEvent> | null;
+  // TODO: add props here
 }
 
 export default codegenNativeComponent<NativeProps>(

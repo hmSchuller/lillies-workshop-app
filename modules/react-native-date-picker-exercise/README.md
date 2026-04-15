@@ -130,6 +130,16 @@ From project root:
 npx react-native codegen --platform all
 ```
 
+> **Additional note (this repo):** Because this app includes Nitro modules, manual root-level codegen can sometimes leave stale Android build artifacts.
+> If you hit CMake target/include errors, regenerate app autolinking and Nitro headers instead:
+>
+> ```sh
+> cd android
+> ./gradlew :app:generateAutolinkingPackageList :app:generateAutolinkingNewArchitectureFiles --rerun-tasks
+> ./gradlew :react-native-nitro-modules:prepareHeaders
+> cd ..
+> ```
+
 Then regenerate iOS integration:
 
 ```sh
@@ -819,6 +829,7 @@ The **DatePicker example** is on the **Meins** tab → **Setup Lilliebox** secti
 | Problem | Fix |
 |---------|-----|
 | `NativeDatePickerView` not found at runtime | Run `npx react-native codegen --platform all`, then `cd ios && pod install` and rebuild |
+| CMake target/include errors after codegen (especially with Nitro) | Regenerate autolinking + Nitro headers: `cd android && ./gradlew :app:generateAutolinkingPackageList :app:generateAutolinkingNewArchitectureFiles --rerun-tasks && ./gradlew :react-native-nitro-modules:prepareHeaders` |
 | iOS picker renders but doesn't emit events | Check that the `onChange` block is wired in `initWithFrame:` |
 | Android picker shows but date doesn't update | Check that `emitChange` is called after `selectedDateTime` is updated |
 | Build error in `.mm` file | Make sure you're comparing against `*_props` (old) not `*oldProps` |
