@@ -50,6 +50,61 @@ Both return:
 
 ---
 
+## References
+
+### React Native Nitro Modules
+
+| Topic | Link |
+|---|---|
+| Nitro Modules — overview | https://nitro.margelo.com/docs/nitro-modules |
+| HybridObject — creating a hybrid object | https://nitro.margelo.com/docs/hybrid-objects |
+| Nitrogen — spec codegen tool | https://nitro.margelo.com/docs/nitrogen |
+| Nitro type mapping (TS ↔ native types) | https://nitro.margelo.com/docs/types |
+| `NitroModules.createHybridObject` (JS) | https://nitro.margelo.com/docs/hybrid-objects#usage-in-javascript |
+| Error handling in Nitro | https://nitro.margelo.com/docs/errors |
+
+### iOS — AVFoundation (recording)
+
+| Topic | Link |
+|---|---|
+| AVAudioEngine — audio graph | https://developer.apple.com/documentation/avfaudio/avaudioengine |
+| AVAudioEngine.inputNode — microphone tap | https://developer.apple.com/documentation/avfoundation/avaudioengine/1386063-inputnode |
+| AVAudioNode.installTap — reading audio buffers | https://developer.apple.com/documentation/avfoundation/avaudionode/1387122-installtap |
+| AVAudioFile — writing audio files | https://developer.apple.com/documentation/avfoundation/avaudiofile |
+| AVAudioSession — configuring `.record` category | https://developer.apple.com/documentation/avfaudio/avaudiosession |
+| Requesting microphone permission | https://developer.apple.com/documentation/avfoundation/requesting-authorization-to-capture-and-save-media |
+| RMS → dB conversion | https://en.wikipedia.org/wiki/Root_mean_square |
+
+### iOS — Persistence
+
+| Topic | Link |
+|---|---|
+| FileManager — Documents directory | https://developer.apple.com/documentation/foundation/filemanager |
+| UserDefaults — storing JSON metadata | https://developer.apple.com/documentation/foundation/userdefaults |
+| JSONEncoder / JSONDecoder (Codable) | https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types |
+
+### Android — MediaRecorder (recording)
+
+| Topic | Link |
+|---|---|
+| MediaRecorder guide | https://developer.android.com/guide/topics/media/mediarecorder |
+| MediaRecorder — `setAudioSource`, `setOutputFormat`, `setAudioEncoder` | https://developer.android.com/reference/android/media/MediaRecorder |
+| MediaRecorder.maxAmplitude — live metering | https://developer.android.com/reference/android/media/MediaRecorder#getMaxAmplitude() |
+| Handler + Runnable — polling on the main thread | https://developer.android.com/reference/android/os/Handler |
+| Amplitude → dB conversion | https://en.wikipedia.org/wiki/Decibel#Acoustics |
+| `RECORD_AUDIO` permission | https://developer.android.com/reference/android/Manifest.permission#RECORD_AUDIO |
+
+### Android — Persistence
+
+| Topic | Link |
+|---|---|
+| `getExternalFilesDir` — writing files | https://developer.android.com/reference/android/content/Context#getExternalFilesDir(java.lang.String) |
+| SharedPreferences — storing metadata | https://developer.android.com/training/data-storage/shared-preferences |
+| DateStore - storing metadata | https://developer.android.com/topic/libraries/architecture/datastore |
+| `org.json.JSONArray` / `JSONObject` | https://developer.android.com/reference/org/json/JSONArray |
+
+---
+
 ## Level 0 — Spec + Nitrogen codegen
 
 ### Goal
