@@ -124,13 +124,13 @@ Your spec should expose:
 From module root:
 
 ```sh
-npm run specs
+npx nitrogen
 ```
 
 or from app root:
 
 ```sh
-yarn --cwd modules/react-native-studio-recorder specs
+cd modules/react-native-studio-recorder && npx nitrogen && cd ../..
 ```
 
 Then regenerate iOS pods from app root:
@@ -613,7 +613,7 @@ From app root:
 
 ```sh
 # regenerate nitro bindings (if spec changed)
-yarn --cwd modules/react-native-studio-recorder specs
+cd modules/react-native-studio-recorder && npx nitrogen
 
 # iOS pods
 cd ios && pod install && cd ..
