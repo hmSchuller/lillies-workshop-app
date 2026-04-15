@@ -2,48 +2,12 @@ package expo.modules.lillieshaker
 
 import android.content.Context
 import android.view.ViewGroup.LayoutParams
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.StartOffset
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.absoluteOffset
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.viewevent.EventDispatcher
 import expo.modules.kotlin.views.ExpoView
@@ -65,27 +29,16 @@ class DiscoverOverlayView(context: Context, appContext: AppContext) : ExpoView(c
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        // Create and add the ComposeView only once the parent is attached to a window.
-        // Fabric (New Architecture) measures views before attaching them, and
-        // ComposeView.onMeasure() calls ensureCompositionCreated() which requires a
-        // WindowRecomposer — crashing if the view isn't in a window yet.
-        if (composeView == null) {
-            composeView = ComposeView(context).also { cv ->
-                cv.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-                cv.setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-                addView(cv)
-                cv.setContent {
-                    val items by itemsState
-                    val visible by visibleState
-                    DiscoverOverlay(
-                        items = items,
-                        visible = visible,
-                        onItemSelect = { id -> onItemSelect(mapOf("id" to id)) },
-                        onDismiss = { onDismiss(emptyMap()) }
-                    )
-                }
-            }
-        }
+        // TODO (Level 3 Android):
+        // Create a ComposeView, add it to this ExpoView, and set its content
+        // to call your DiscoverOverlay composable, wiring:
+        //   - items  from itemsState
+        //   - visible from visibleState
+        //   - onItemSelect: { id -> onItemSelect(mapOf("id" to id)) }
+        //   - onDismiss:    { onDismiss(emptyMap()) }
+        //
+        // Use ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed.
+        // Only create the ComposeView once (guard with `if (composeView == null)`).
     }
 
     override fun onDetachedFromWindow() {
@@ -95,12 +48,12 @@ class DiscoverOverlayView(context: Context, appContext: AppContext) : ExpoView(c
 
     /** Called from the Prop("items") handler in LillieShakerModule. */
     fun updateItems(newItems: List<Map<String, Any?>>) {
-        itemsState.value = newItems
+        // TODO (Level 3 Android): update itemsState.value = newItems
     }
 
     /** Called from the Prop("visible") handler in LillieShakerModule. */
     fun updateVisibility(isVisible: Boolean) {
-        visibleState.value = isVisible
+        // TODO (Level 3 Android): update visibleState.value = isVisible
     }
 }
 
@@ -126,135 +79,38 @@ private val BubbleColors = listOf(
     Color(0xFF56CF8F)
 )
 
-@Composable
-private fun DiscoverOverlay(
-    items: List<Map<String, Any?>>,
-    visible: Boolean,
-    onItemSelect: (String) -> Unit,
-    onDismiss: () -> Unit
-) {
-    AnimatedVisibility(
-        visible = visible,
-        enter = fadeIn(animationSpec = tween(300)) +
-                scaleIn(initialScale = 0.85f, animationSpec = tween(300)),
-        exit = fadeOut(animationSpec = tween(250)) +
-               scaleOut(targetScale = 0.85f, animationSpec = tween(250))
-    ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            // Semi-transparent scrim — tapping fires onDismiss
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.7f))
-                    .clickable(onClick = onDismiss)
-            )
+// TODO (Level 3 Android): Implement the DiscoverOverlay composable.
+//
+// Signature:
+//   @Composable
+//   private fun DiscoverOverlay(
+//       items: List<Map<String, Any?>>,
+//       visible: Boolean,
+//       onItemSelect: (String) -> Unit,
+//       onDismiss: () -> Unit
+//   )
+//
+// It should:
+//   1. Wrap content in AnimatedVisibility(visible, fadeIn+scaleIn / fadeOut+scaleOut)
+//   2. Show a full-screen semi-transparent Box (clickable → onDismiss)
+//   3. For each item (up to 5) render a ProductBubble at BubblePositions[index]
+//      passing id/title/category, a color from BubbleColors, and onClick → onItemSelect(id)
 
-            // Up to 5 floating product bubbles
-            val displayItems = items.take(5)
-            displayItems.forEachIndexed { index, item ->
-                val (posX, posY) = BubblePositions.getOrElse(index) {
-                    Pair(80f + index * 60f, 200f)
-                }
-                val itemId = item["id"]?.toString() ?: ""
-                val title = item["title"]?.toString() ?: ""
-                val category = item["category"]?.toString() ?: ""
-                val bubbleColor = BubbleColors[index % BubbleColors.size]
-
-                key(itemId.ifEmpty { index.toString() }) {
-                    ProductBubble(
-                        title = title,
-                        category = category,
-                        bubbleColor = bubbleColor,
-                        bubbleIndex = index,
-                        modifier = Modifier.absoluteOffset(x = posX.dp, y = posY.dp),
-                        onClick = { onItemSelect(itemId) }
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun ProductBubble(
-    title: String,
-    category: String,
-    bubbleColor: Color,
-    bubbleIndex: Int,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    // Gentle vertical bobbing, staggered per bubble
-    val infiniteTransition = rememberInfiniteTransition(label = "bubble_float_$bubbleIndex")
-    val floatOffset by infiniteTransition.animateFloat(
-        initialValue = -7f,
-        targetValue = 7f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(
-                durationMillis = 1800 + bubbleIndex * 200,
-                easing = FastOutSlowInEasing
-            ),
-            repeatMode = RepeatMode.Reverse,
-            initialStartOffset = StartOffset(bubbleIndex * 250)
-        ),
-        label = "float_$bubbleIndex"
-    )
-
-    Column(
-        modifier = modifier
-            .offset(y = floatOffset.dp)
-            .clickable(onClick = onClick)
-            .padding(horizontal = 4.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Colored circle with the first letter of the title as fallback image
-        Box(
-            modifier = Modifier
-                .size(68.dp)
-                .clip(CircleShape)
-                .background(bubbleColor),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = title.firstOrNull()?.uppercaseChar()?.toString() ?: "?",
-                color = Color.White,
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-
-        Spacer(modifier = Modifier.height(6.dp))
-
-        // Product title — max 2 lines, centred
-        Text(
-            text = title,
-            color = Color.White,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.widthIn(max = 88.dp)
-        )
-
-        // Category badge — only shown when non-empty
-        if (category.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(4.dp))
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = Color.White.copy(alpha = 0.25f),
-                        shape = RoundedCornerShape(10.dp)
-                    )
-                    .padding(horizontal = 8.dp, vertical = 3.dp)
-            ) {
-                Text(
-                    text = category,
-                    color = Color.White.copy(alpha = 0.9f),
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-        }
-    }
-}
+// TODO (Level 3 Android): Implement the ProductBubble composable.
+//
+// Signature:
+//   @Composable
+//   private fun ProductBubble(
+//       title: String,
+//       category: String,
+//       bubbleColor: Color,
+//       bubbleIndex: Int,
+//       modifier: Modifier = Modifier,
+//       onClick: () -> Unit
+//   )
+//
+// It should:
+//   1. Use rememberInfiniteTransition to animate a gentle float offset
+//      (staggered by bubbleIndex, ~1800+bubbleIndex*200 ms, -7f..7f, Reverse)
+//   2. Show a colored Circle (68.dp) with the first letter of title centered
+//   3. Below the circle: title text (max 2 lines) + optional category badge

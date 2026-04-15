@@ -13,23 +13,19 @@ public class LillieShakerModule: Module {
     Events("onShake")
 
     OnStartObserving {
-      guard self.motionManager.isAccelerometerAvailable else { return }
-      self.motionManager.accelerometerUpdateInterval = 0.1
-      self.motionManager.startAccelerometerUpdates(to: .main) { [weak self] data, error in
-        guard let self = self, let data = data, error == nil else { return }
-        let a = data.acceleration
-        let magnitude = sqrt(pow(a.x, 2) + pow(a.y, 2) + pow(a.z, 2))
-        let now = Date()
-        if magnitude > self.shakeThreshold &&
-           now.timeIntervalSince(self.lastShakeTime) > self.debounceDuration {
-          self.lastShakeTime = now
-          self.sendEvent("onShake")
-        }
-      }
+      // TODO (Level 1 iOS):
+      // 1) Guard that motionManager.isAccelerometerAvailable
+      // 2) Set motionManager.accelerometerUpdateInterval = 0.1
+      // 3) Call motionManager.startAccelerometerUpdates(to: .main) with a closure:
+      //    a) Read data.acceleration (x, y, z)
+      //    b) Compute magnitude = sqrt(x² + y² + z²)
+      //    c) If magnitude > shakeThreshold AND debounce interval elapsed →
+      //       update lastShakeTime and call self.sendEvent("onShake")
     }
 
     OnStopObserving {
-      self.motionManager.stopAccelerometerUpdates()
+      // TODO (Level 1 iOS): stop accelerometer updates.
+      //   self.motionManager.stopAccelerometerUpdates()
     }
 
     View(DiscoverOverlayView.self) {

@@ -19,20 +19,18 @@ class LillieShakerModule : Module(), SensorEventListener {
     Events("onShake")
 
     OnStartObserving {
-      val context = appContext.reactContext ?: return@OnStartObserving
-      sensorManager = context.getSystemService(android.content.Context.SENSOR_SERVICE) as? SensorManager
-      val accelerometer = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-        ?: return@OnStartObserving  // no accelerometer available
-      sensorManager?.registerListener(
-        this@LillieShakerModule,
-        accelerometer,
-        SensorManager.SENSOR_DELAY_UI
-      )
+      // TODO (Level 2 Android):
+      // 1) Get the system SensorManager from appContext.reactContext:
+      //      val context = appContext.reactContext ?: return@OnStartObserving
+      //      sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager
+      // 2) Get the default TYPE_ACCELEROMETER sensor (return early if unavailable)
+      // 3) Register this module as a SensorEventListener with SENSOR_DELAY_UI
     }
 
     OnStopObserving {
-      sensorManager?.unregisterListener(this@LillieShakerModule)
-      sensorManager = null
+      // TODO (Level 2 Android):
+      // 1) Unregister this SensorEventListener:  sensorManager?.unregisterListener(this@LillieShakerModule)
+      // 2) Set sensorManager = null
     }
 
     View(DiscoverOverlayView::class) {
@@ -49,17 +47,12 @@ class LillieShakerModule : Module(), SensorEventListener {
   }
 
   override fun onSensorChanged(event: SensorEvent?) {
-    event ?: return
-    val x = event.values[0]
-    val y = event.values[1]
-    val z = event.values[2]
-    val magnitude = sqrt(x * x + y * y + z * z)
-    val userForce = magnitude - SensorManager.GRAVITY_EARTH
-    val now = System.currentTimeMillis()
-    if (userForce > shakeThreshold && now - lastShakeTime > debounceDuration) {
-      lastShakeTime = now
-      sendEvent("onShake")
-    }
+    // TODO (Level 2 Android):
+    // 1) Read x, y, z from event?.values
+    // 2) Compute magnitude = sqrt(x² + y² + z²)
+    // 3) userForce = magnitude - SensorManager.GRAVITY_EARTH
+    // 4) Debounce: if userForce > shakeThreshold AND enough time has passed since
+    //    lastShakeTime → update lastShakeTime and call sendEvent("onShake")
   }
 
   override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}

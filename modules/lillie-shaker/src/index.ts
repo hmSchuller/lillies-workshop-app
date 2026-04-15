@@ -28,8 +28,18 @@ export function stopListening(): void {
   // listener is removed. This function is intentionally a no-op.
 }
 
+// TODO (Level 0): Wire JS to the native shake event.
+//
+// The native module emits an 'onShake' event via Expo Modules' event system.
+// Use getModule().addListener('onShake', listener) to subscribe and return
+// the resulting EventSubscription so callers can unsubscribe via .remove().
+//
+// For now this stub returns a no-op EventSubscription so the app still runs.
 export function addShakeListener(listener: () => void): EventSubscription {
-  return getModule().addListener('onShake', listener);
+  // Replace this stub with the real implementation:
+  //   return getModule().addListener('onShake', listener);
+  void listener;
+  return { remove: () => {} } as EventSubscription;
 }
 
 export { default as DiscoverOverlay, type DiscoverItem, type DiscoverOverlayProps } from './DiscoverOverlay';

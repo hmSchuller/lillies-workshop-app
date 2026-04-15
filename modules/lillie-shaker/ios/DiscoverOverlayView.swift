@@ -12,92 +12,17 @@ struct DiscoverItem: Identifiable {
 
 // MARK: - SwiftUI content view
 
-private struct DiscoverOverlayContent: View {
-  let items: [DiscoverItem]
-  let onItemSelect: (String) -> Void
-  let onDismiss: () -> Void
-
-  var body: some View {
-    ZStack(alignment: .bottom) {
-      // Dimming background — tap to dismiss
-      Color.black.opacity(0.4)
-        .ignoresSafeArea()
-        .onTapGesture { onDismiss() }
-
-      // Items card
-      VStack(spacing: 0) {
-        // Drag handle
-        Capsule()
-          .fill(Color.secondary.opacity(0.4))
-          .frame(width: 40, height: 4)
-          .padding(.top, 8)
-          .padding(.bottom, 4)
-
-        // Header row
-        HStack {
-          Text("Entdecke")
-            .font(.headline)
-            .foregroundColor(.primary)
-          Spacer()
-          Button(action: onDismiss) {
-            Image(systemName: "xmark.circle.fill")
-              .foregroundColor(.secondary)
-              .font(.title2)
-          }
-        }
-        .padding(.horizontal)
-        .padding(.bottom, 8)
-
-        Divider()
-
-        // Item list
-        ScrollView {
-          LazyVStack(spacing: 0) {
-            ForEach(items) { item in
-              Button(action: { onItemSelect(item.id) }) {
-                HStack(spacing: 12) {
-                  AsyncImage(url: URL(string: item.imageUrl)) { image in
-                    image
-                      .resizable()
-                      .aspectRatio(contentMode: .fill)
-                  } placeholder: {
-                    Color.gray.opacity(0.2)
-                  }
-                  .frame(width: 56, height: 56)
-                  .clipShape(RoundedRectangle(cornerRadius: 8))
-
-                  VStack(alignment: .leading, spacing: 4) {
-                    Text(item.title)
-                      .font(.subheadline)
-                      .fontWeight(.medium)
-                      .foregroundColor(.primary)
-                    Text(item.category)
-                      .font(.caption)
-                      .foregroundColor(.secondary)
-                  }
-                  Spacer()
-                  Image(systemName: "chevron.right")
-                    .foregroundColor(.secondary)
-                    .font(.caption)
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 12)
-                .contentShape(Rectangle())
-              }
-              .buttonStyle(.plain)
-
-              Divider()
-                .padding(.leading, 80)
-            }
-          }
-        }
-        .frame(maxHeight: 400)
-      }
-      .background(Color(UIColor.systemBackground))
-      .cornerRadius(16)
-    }
-  }
-}
+// TODO (Level 3 iOS): Implement the overlay SwiftUI view.
+//
+// Create a private struct DiscoverOverlayContent: View that receives:
+//   - items: [DiscoverItem]
+//   - onItemSelect: (String) -> Void
+//   - onDismiss: () -> Void
+//
+// Its body should render:
+//   1. A full-screen dimming Color.black.opacity(0.4) (tapable → onDismiss)
+//   2. A bottom sheet or bubble layout listing the items
+//   3. Each item row / bubble calls onItemSelect(item.id) when tapped
 
 // MARK: - ExpoView
 
@@ -120,25 +45,18 @@ class DiscoverOverlayView: ExpoView {
   // MARK: - Private helpers
 
   private func setupHostingController() {
-    let hc = UIHostingController(rootView: makeContentView())
-    hc.view.backgroundColor = .clear
-    hc.view.isHidden = !isVisible
-    addSubview(hc.view)
-    hostingController = hc
+    // TODO (Level 3 iOS):
+    // 1) Create UIHostingController(rootView: makeContentView())
+    // 2) Set hc.view.backgroundColor = .clear
+    // 3) hc.view.isHidden = !isVisible
+    // 4) addSubview(hc.view) and store as hostingController
   }
 
   private func makeContentView() -> AnyView {
-    AnyView(
-      DiscoverOverlayContent(
-        items: items,
-        onItemSelect: { [weak self] id in
-          self?.onItemSelect(["id": id])
-        },
-        onDismiss: { [weak self] in
-          self?.onDismiss([:])
-        }
-      )
-    )
+    // TODO (Level 3 iOS):
+    // Return AnyView wrapping DiscoverOverlayContent, forwarding
+    // items, onItemSelect(["id": id]) and onDismiss([:]) closures.
+    return AnyView(EmptyView())
   }
 
   // MARK: - Layout
@@ -152,21 +70,16 @@ class DiscoverOverlayView: ExpoView {
 
   /// Called by the Expo prop handler when the `items` prop changes.
   func updateItems(_ newItems: [[String: Any]]) {
-    items = newItems.compactMap { dict in
-      guard
-        let id = dict["id"] as? String,
-        let title = dict["title"] as? String,
-        let imageUrl = dict["imageUrl"] as? String,
-        let category = dict["category"] as? String
-      else { return nil }
-      return DiscoverItem(id: id, title: title, imageUrl: imageUrl, category: category)
-    }
-    hostingController?.rootView = makeContentView()
+    // TODO (Level 3 iOS):
+    // 1) Parse newItems into [DiscoverItem] — each dict has id/title/imageUrl/category keys
+    // 2) Store in self.items
+    // 3) Refresh: hostingController?.rootView = makeContentView()
   }
 
   /// Called by the Expo prop handler when the `visible` prop changes.
   func updateVisibility(_ visible: Bool) {
-    isVisible = visible
-    hostingController?.view.isHidden = !visible
+    // TODO (Level 3 iOS):
+    // 1) isVisible = visible
+    // 2) hostingController?.view.isHidden = !visible
   }
 }
