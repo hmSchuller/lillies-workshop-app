@@ -1,19 +1,29 @@
 import {type HybridObject} from 'react-native-nitro-modules';
 
 // TODO (Level 0): Define the exact shape returned from stopRecording().
+// Expected final fields:
+//  - id: string
+//  - filePath: string
+//  - durationMs: number
 export interface RecordingResult {
-  id: string;
-  filePath: string;
-  durationMs: number;
+  id: never;
+  filePath: never;
+  durationMs: never;
 }
 
 // TODO (Level 0): Define the persisted recording metadata shape.
+// Expected final fields:
+//  - id: string
+//  - name: string
+//  - filePath: string
+//  - durationMs: number
+//  - createdAt: number (Unix timestamp ms)
 export interface RecordingInfo {
-  id: string;
-  name: string;
-  filePath: string;
-  durationMs: number;
-  createdAt: number; // Unix timestamp ms
+  id: never;
+  name: never;
+  filePath: never;
+  durationMs: never;
+  createdAt: never;
 }
 
 // TODO (Level 0): Define the Nitro HybridObject contract.
@@ -27,11 +37,11 @@ export interface RecordingInfo {
 // - deleteRecording(id)
 export interface NitroStudioRecorder
   extends HybridObject<{ios: 'swift'; android: 'kotlin'}> {
-  startRecording(onMeterUpdate: (db: number) => void): void;
-  stopRecording(): RecordingResult;
-  cancelRecording(): void;
-  readonly isRecording: boolean;
+  startRecording(onMeterUpdate: never): never;
+  stopRecording(): never;
+  cancelRecording(): never;
+  readonly isRecording: never;
 
-  getRecordings(): RecordingInfo[];
-  deleteRecording(id: string): void;
+  getRecordings(): never;
+  deleteRecording(id: never): never;
 }
