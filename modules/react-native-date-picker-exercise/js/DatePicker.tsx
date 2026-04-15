@@ -1,13 +1,13 @@
 import * as React from 'react';
-import type {ColorValue, ViewProps} from 'react-native';
-import {Text, View} from 'react-native';
+import type {ColorValue, NativeSyntheticEvent, ViewProps} from 'react-native';
 
-// TODO (Level 1): Import NativeDatePickerView from the Codegen spec.
-// The spec is at ../spec/NativeDatePickerViewNativeComponent
-// If you just changed the spec, run: npx react-native codegen --platform all
-// import NativeDatePickerView from '../spec/NativeDatePickerViewNativeComponent';
+import NativeDatePickerView from '../spec/NativeDatePickerViewNativeComponent';
 
 export type DatePickerMode = 'date' | 'time' | 'datetime';
+
+type DatePickerChangeEvent = NativeSyntheticEvent<{
+  date: string;
+}>;
 
 export interface DatePickerProps extends Omit<ViewProps, 'onChange'> {
   value: Date;
@@ -18,25 +18,9 @@ export interface DatePickerProps extends Omit<ViewProps, 'onChange'> {
   onChange?: (date: Date) => void;
 }
 
-// TODO (Level 1): Implement the DatePicker component.
-//
-// This wrapper converts the JS-friendly API (Date objects, typed callbacks)
-// to the props the Codegen-generated native component expects (ISO strings, native events).
-//
-// Steps:
-//  1. Import NativeDatePickerView from the spec (uncomment the import above).
-//  2. Write a handleChange callback that:
-//       - Receives a NativeSyntheticEvent<{ date: string }>
-//       - Parses event.nativeEvent.date into a Date object
-//       - Guards against NaN (invalid date string)
-//       - Calls onChange?.(nextDate)
-//  3. Render <NativeDatePickerView> with the converted props:
-//       - value          → date           (Date → .toISOString())
-//       - minimumDate?   → minimumDate    (Date | undefined → .toISOString() | undefined)
-//       - maximumDate?   → maximumDate    (Date | undefined → .toISOString() | undefined)
-//       - mode, accentColor              (pass through as-is)
-//       - onChange       → handleChange  (native event handler)
-//       - ...viewProps                   (spread the rest)
+function toIsoString(value?: Date): string | undefined {
+  return value?.toISOString();
+}
 
 export default function DatePicker({
   value,
@@ -47,16 +31,28 @@ export default function DatePicker({
   onChange,
   ...viewProps
 }: DatePickerProps): React.JSX.Element {
+  const handleChange = React.useCallback(
+    (event: DatePickerChangeEvent) => {
+      const nextDate = new Date(event.nativeEvent.date);
+
+      if (Number.isNaN(nextDate.getTime())) {
+        return;
+      }
+
+      onChange?.(nextDate);
+    },
+    [onChange],
+  );
+
   return (
-    <View
+    <NativeDatePickerView
       {...viewProps}
-      style={[
-        {minHeight: 56, justifyContent: 'center', alignItems: 'center'},
-        viewProps.style,
-      ]}>
-      <Text style={{color: '#888', fontSize: 14}}>
-        DatePicker — not yet implemented
-      </Text>
-    </View>
+      date={value.toISOString()}
+      minimumDate={toIsoString(minimumDate)}
+      maximumDate={toIsoString(maximumDate)}
+      mode={mode}
+      accentColor={accentColor}
+      onChange={handleChange}
+    />
   );
 }

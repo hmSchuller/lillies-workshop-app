@@ -55,38 +55,46 @@ public final class RNDatePickerView: UIView {
   }
 
   // MARK: - @objc prop setters (names match RNDatePickerViewProtocol selectors)
-  //
-  // TODO (Level 3 iOS): Implement each setter below.
-  // Each one receives a value from the ObjC++ Fabric shell and should
-  // configure `datePicker` accordingly.
 
   /// Sets the currently selected date from an ISO 8601 string.
   /// Should parse the ISO string, clamp it to current min/max bounds, and
   /// call datePicker.setDate(_:animated:false) if the value actually changed.
   @objc public func setDateISO(_ iso: String) {
-    // TODO: Implement
+    guard let date = parseDate(from: iso) else { return }
+    let clamped = clamp(date)
+    if datePicker.date != clamped {
+      datePicker.setDate(clamped, animated: false)
+    }
   }
 
   /// Sets the lower bound. Pass `nil` or an empty string to clear it.
   /// After updating datePicker.minimumDate, clamp the current date if needed.
   @objc public func setMinimumDateISO(_ iso: String?) {
-    // TODO: Implement
+    datePicker.minimumDate = iso.flatMap { parseDate(from: $0) }
+    let clamped = clamp(datePicker.date)
+    if datePicker.date != clamped {
+      datePicker.setDate(clamped, animated: false)
+    }
   }
 
   /// Sets the upper bound. Pass `nil` or an empty string to clear it.
   /// After updating datePicker.maximumDate, clamp the current date if needed.
   @objc public func setMaximumDateISO(_ iso: String?) {
-    // TODO: Implement
+    datePicker.maximumDate = iso.flatMap { parseDate(from: $0) }
+    let clamped = clamp(datePicker.date)
+    if datePicker.date != clamped {
+      datePicker.setDate(clamped, animated: false)
+    }
   }
 
   /// Maps the JS mode string ("date" | "time" | "datetime") to `UIDatePicker.Mode`.
   @objc public func setPickerMode(_ mode: String) {
-    // TODO: Implement
+    datePicker.datePickerMode = pickerMode(from: mode)
   }
 
   /// Applies an optional accent/tint color. Pass `nil` to restore the system default.
   @objc public func setPickerAccentColor(_ color: UIColor?) {
-    // TODO: Implement
+    datePicker.tintColor = color
   }
 
   /// Resets all mutable state so the view can be safely reused by Fabric's recycler.
