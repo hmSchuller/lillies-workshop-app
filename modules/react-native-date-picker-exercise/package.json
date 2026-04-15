@@ -4,7 +4,7 @@
   "description": "Workshop Fabric date picker exercise",
   "private": true,
   "codegenConfig": {
-    "name": "RNDatePickerExerciseSpec",
+    "name": "NativeDatePickerView",
     "type": "components",
     "jsSrcsDir": "spec",
     "ios": {
