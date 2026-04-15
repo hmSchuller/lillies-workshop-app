@@ -62,6 +62,44 @@ StartScreen
 
 ---
 
+## References
+
+### Expo Modules Core
+
+| Topic | Link |
+|---|---|
+| Expo Modules overview | https://docs.expo.dev/modules/overview/ |
+| ExpoView (native view base class) | https://docs.expo.dev/modules/native-module-tutorial/ |
+| Module API (`Name`, `Events`, `OnStartObserving`, `sendEvent`) | https://docs.expo.dev/modules/module-api/ |
+| View API (`View`, `Prop`, `Events`) | https://docs.expo.dev/modules/module-api/#view |
+| Expo Module Config (`expo-module.config.json`) | https://docs.expo.dev/modules/module-config/ |
+
+### iOS
+
+| Topic | Link |
+|---|---|
+| SwiftUI `ZStack`, `VStack`, `ScrollView`, `LazyVStack` | https://developer.apple.com/documentation/swiftui |
+| UIHostingController — embedding SwiftUI in UIKit | https://developer.apple.com/documentation/swiftui/uihostingcontroller |
+| CMMotionManager — accelerometer updates | https://developer.apple.com/documentation/coremotion/cmmotionmanager |
+| CMAccelerometerData — reading x/y/z values | https://developer.apple.com/documentation/coremotion/cmaccelerometerdata |
+| SwiftUI `AnimatedVisibility` equivalent — `.transition` + `.animation` | https://developer.apple.com/documentation/swiftui/view/transition(_:) |
+
+
+### Android
+
+| Topic | Link |
+|---|---|
+| Jetpack Compose — getting started | https://developer.android.com/jetpack/compose/documentation |
+| ComposeView — embedding Compose in Views | https://developer.android.com/reference/kotlin/androidx/compose/ui/platform/ComposeView |
+| `AnimatedVisibility` in Compose | https://developer.android.com/jetpack/compose/animation/composables-modifiers#animatedvisibility |
+| `rememberInfiniteTransition` + `animateFloat` | https://developer.android.com/jetpack/compose/animation/value-based#infinite-transition |
+| SensorManager — registering a listener | https://developer.android.com/reference/android/hardware/SensorManager |
+| SensorEventListener — `onSensorChanged` | https://developer.android.com/reference/android/hardware/SensorEventListener |
+| Sensor.TYPE_ACCELEROMETER | https://developer.android.com/reference/android/hardware/Sensor#TYPE_ACCELEROMETER |
+
+
+---
+
 ## Level 0 — JS event wiring (`src/index.ts`)
 
 ### Goal
