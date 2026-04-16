@@ -1,3 +1,6 @@
+// Platform interop glue.
+// Decouples AddLillieboxModule from a concrete MainActivity type; the host
+// Activity implements this to provide the ActivityResultLauncher the module needs.
 package com.nativeflowexercise
 
 import android.content.Intent

@@ -1,3 +1,6 @@
+// Core TurboModule plumbing.
+// TurboReactPackage that lazily instantiates AddLillieboxModule on demand and
+// registers its ReactModuleInfo so the RN registry knows it is a TurboModule.
 package com.nativeflowexercise
 
 import com.facebook.react.TurboReactPackage

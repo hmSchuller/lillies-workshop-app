@@ -1,3 +1,6 @@
+// Native UI layer.
+// Intended Compose navigation owner for the Android flow. The finished exercise
+// wires the screen routes here so the TurboModule only sees one final result.
 package com.nativeflowexercise
 
 import androidx.compose.runtime.Composable

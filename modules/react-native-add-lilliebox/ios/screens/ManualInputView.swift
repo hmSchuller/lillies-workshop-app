@@ -1,3 +1,6 @@
+// Native UI layer.
+// SwiftUI form for typing a serial number. Participants implement trimming and
+// validation here while the root flow stays focused on navigation.
 import SwiftUI
 
 /// TODO (Level 3 iOS): Build manual serial input screen in SwiftUI.
@@ -24,6 +27,7 @@ struct ManualInputView: View {
                 .textFieldStyle(.roundedBorder)
 
             Button("Bestätigen") {
+                // TODO: submit the trimmed value, not the raw text field contents.
                 onSubmit(serialNumber)
             }
             .disabled(serialNumber.trimmingCharacters(in: .whitespaces).isEmpty)

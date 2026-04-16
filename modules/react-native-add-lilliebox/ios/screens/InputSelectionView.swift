@@ -1,3 +1,6 @@
+// Native UI layer.
+// Entry screen for the iOS flow; presents method-of-entry choices and cancel.
+// All navigation decisions are delegated upward via callbacks — no nav logic here.
 import SwiftUI
 
 /// TODO (Level 3 iOS): Build the first SwiftUI screen of the flow.

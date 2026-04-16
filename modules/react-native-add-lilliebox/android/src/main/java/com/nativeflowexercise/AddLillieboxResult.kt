@@ -1,3 +1,6 @@
+// Core TurboModule plumbing.
+// Shared Android result model. Once participants finish Level 1, this file
+// centralises how the native flow serialises back to Activity results and JS.
 package com.nativeflowexercise
 
 import android.content.Intent
@@ -34,16 +37,14 @@ data class AddLillieboxResult(
 
         /**
          * TODO (Level 1): Reconstruct from Activity result Intent.
-         * Return CANCELLED for null/missing/invalid payloads.
+         *
+         * Suggested behaviour:
+         *  - return CANCELLED when the intent/extras/status are missing
+         *  - otherwise rebuild the same stable result shape used everywhere else
          */
         fun fromIntent(intent: Intent?): AddLillieboxResult {
-            val bundle = intent?.extras ?: return CANCELLED
-            val status = bundle.getString(KEY_STATUS) ?: return CANCELLED
-            return AddLillieboxResult(
-                status = status,
-                serialNumber = bundle.getString(KEY_SERIAL_NUMBER),
-                addedVia = bundle.getString(KEY_ADDED_VIA),
-            )
+            // TODO: replace stub with defensive reconstruction from Intent extras.
+            return CANCELLED
         }
     }
 }

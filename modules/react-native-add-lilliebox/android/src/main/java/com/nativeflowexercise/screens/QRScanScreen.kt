@@ -1,3 +1,6 @@
+// Native UI layer.
+// Placeholder for the Android QR scanning step. The finished exercise can add
+// CAMERA permission handling, CameraX preview, and ML Kit frame analysis here.
 package com.nativeflowexercise.screens
 
 import androidx.compose.foundation.layout.Arrangement

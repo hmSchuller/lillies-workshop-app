@@ -1,3 +1,6 @@
+// Native UI layer.
+// UIKit boundary between the ObjC++ module and the SwiftUI flow.
+// AddLillieboxModule presents this controller; all SwiftUI content lives in AddLillieboxRootView.
 import Foundation
 import SwiftUI
 import UIKit

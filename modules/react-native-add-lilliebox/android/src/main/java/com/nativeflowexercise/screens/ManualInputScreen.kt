@@ -1,3 +1,6 @@
+// Native UI layer.
+// Compose form for typing a serial number. Participants add the trimming /
+// normalisation rules here while the root flow stays focused on navigation.
 package com.nativeflowexercise.screens
 
 import androidx.compose.foundation.layout.Arrangement
@@ -50,7 +53,10 @@ fun ManualInputScreen(
         )
 
         Button(
-            onClick = { onSubmit(serial) },
+            onClick = {
+                // TODO: submit the trimmed / normalized serial, not the raw text field value.
+                onSubmit(serial)
+            },
             enabled = serial.trim().isNotEmpty(),
             modifier = Modifier.fillMaxWidth(),
         ) {

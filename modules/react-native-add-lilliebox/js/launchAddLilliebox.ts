@@ -1,27 +1,24 @@
+// DX/helper wiring.
+// Public launcher that delegates to the native module and optionally normalises
+// the result before handing it back to app code.
 import NativeAddLillieboxModule from './NativeAddLillieboxModule';
 import type {AddLillieboxResult} from './NativeAddLillieboxModule';
 
 export type {AddLillieboxResult};
 
-// TODO (Level 1): Implement the result-pattern normalization.
+// TODO (Level 1): Decide how defensive you want the JS boundary to be.
 //
-// Desired behaviour:
+// Workshop baseline:
 //  1) Await NativeAddLillieboxModule.launchAddLilliebox()
-//  2) Validate / normalize unknown native payload to the strict AddLillieboxResult shape
-//  3) Return a safe, typed object to app code
+//  2) Return that typed result to app code
 //
-// Hints:
-//  - status must be 'completed' | 'cancelled'
-//  - addedVia must be 'qr' | 'manual' | 'nfc' | null
-//  - if status is 'cancelled', serialNumber and addedVia should be null
+// Optional stretch:
+//  - validate / normalize if you want a defensive JS boundary around native
+//  - ensure cancelled results use serialNumber:null and addedVia:null
 export async function launchAddLilliebox(): Promise<AddLillieboxResult> {
   console.log('[RNAddLilliebox] JS launcher called');
 
-  // TODO: replace fallback with normalized native result.
-  await NativeAddLillieboxModule.launchAddLilliebox();
-  return {
-    status: 'cancelled',
-    serialNumber: null,
-    addedVia: null,
-  };
+  // TODO: for the baseline exercise, capture the native result and return it.
+  const result = await NativeAddLillieboxModule.launchAddLilliebox();
+  return result;
 }

@@ -1,3 +1,6 @@
+// Platform interop glue.
+// Small Swift-to-ObjC adapter so the ObjC++ module can ask for a UIViewController
+// without importing SwiftUI details through a C++ translation unit.
 import Foundation
 import UIKit
 

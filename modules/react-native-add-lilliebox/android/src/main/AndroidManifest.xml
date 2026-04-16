@@ -1,3 +1,6 @@
+<!-- Platform interop glue.
+     Declares the CAMERA permission and registers AddLillieboxActivity as a
+     non-exported component within this library manifest. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.CAMERA" />
     <application>

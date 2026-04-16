@@ -1,6 +1,6 @@
 # Exercise: Add Lilliebox (TurboModule + Native Flow)
 
-Build a fully native, multi-screen “Add Lilliebox” experience from React Native.
+Build a fully native, multi-screen "Add Lilliebox" experience from React Native.
 
 This exercise is intentionally split into levels so participants can stop where it makes sense:
 
@@ -8,6 +8,21 @@ This exercise is intentionally split into levels so participants can stop where 
 - **Level 1:** Result pattern (typed success/cancel payload across platforms)
 - **Level 2:** Native owns navigation + flow orchestration
 - **Level 3:** Modern native UI (SwiftUI + Jetpack Compose, multi-screen)
+
+---
+
+## File map
+
+Most source files now carry a short header comment. This table covers the config-heavy files
+(and `package.json`) that are easier to explain once in the README.
+
+| File | Role |
+|------|------|
+| `package.json` | NPM manifest. Declares the package name, `main` entry, and the `codegenConfig` block (`name: RNAddLillieboxSpec`) that drives codegen on both platforms. |
+| `react-native.config.js` | DX/helper wiring. Tells the RN CLI autolinking system that this package has native implementations on both iOS and Android. |
+| `RNAddLilliebox.podspec` | Platform interop glue (iOS). CocoaPods spec that collects all iOS source files and calls `install_modules_dependencies` to wire up New Architecture support. |
+| `android/build.gradle` | Platform interop glue (Android). Library build script enabling Compose, the React Native Gradle plugin, and declaring CameraX/ML Kit/Navigation/ViewModel dependencies. |
+| `android/src/main/AndroidManifest.xml` | Platform interop glue (Android). Declares the `CAMERA` permission and registers `AddLillieboxActivity` as a non-exported component within this library. |
 
 ---
 
@@ -42,9 +57,21 @@ This exercise is intentionally split into levels so participants can stop where 
 - `android/.../NativeAddLillieboxPackage.kt`
 - `RNAddLilliebox.podspec`, `package.json`, `react-native.config.js`
 
+> Workshop scope note
+> - iOS focuses on QR + manual entry.
+> - Android adds a simulated NFC branch to demonstrate one extra native-owned route without introducing CoreNFC setup on iOS.
+> - The shared JS union still includes `'nfc'` because it models the superset of results returned by either platform.
+
+### Progress markers
+
+- **After Level 0:** your TypeScript spec is strict and codegen can generate the native module contract.
+- **After Level 1:** iOS, Android, and JS all agree on the same completed/cancelled payload shape.
+- **After Level 2:** one JS call opens a native modal flow and returns one final result.
+- **After Level 3:** the placeholder screens are replaced with real SwiftUI / Compose screens.
+
 ---
 
-## Level 0 — Codegen contract
+## Level 0 - Codegen contract
 
 ### Goal
 Define a strict TurboModule contract in `js/NativeAddLillieboxModule.ts`.
@@ -60,7 +87,15 @@ Use these unions:
 - `status`: `'completed' | 'cancelled'`
 - `addedVia`: `'qr' | 'manual' | 'nfc' | null`
 
-### 🔴 Hint 3 — Full solution
+### 💡 Knowledge bits
+
+- `package.json` uses `"codegenConfig.name": "RNAddLillieboxSpec"` as the generated library/spec namespace. The runtime module name still comes from `TurboModuleRegistry.getEnforcing('NativeAddLillieboxModule')`.
+- After `npx react-native codegen --platform all`, inspect generated files such as `build/generated/ios/ReactCodegen/RNAddLillieboxSpec/RNAddLillieboxSpec.h` and `android/app/build/generated/source/codegen/java/com/facebook/fbreact/specs/NativeAddLillieboxModuleSpec.java`.
+- `getEnforcing(...)` fails fast if the module is missing from autolinking or registration. `TurboModuleRegistry.get(...)` would return `null` instead.
+- The starter uses `never` on purpose: it reminds you that the union is unfinished and prevents fake placeholder result objects from accidentally looking "correct".
+- If codegen fails with `TypeScript type annotation 'TSNeverKeyword' is unsupported`, that is the expected starter-state failure. Replace the `never` placeholders with the real unions, then rerun codegen.
+
+### 🔴 Hint 3 - Full solution
 
 <details>
 <summary><code>js/NativeAddLillieboxModule.ts</code></summary>
@@ -96,7 +131,7 @@ cd ios && pod install && cd ..
 
 ---
 
-## Level 1 — Result pattern
+## Level 1 - Result pattern
 
 ### Goal
 Return a stable, typed result shape from both native platforms to JS.
@@ -122,7 +157,13 @@ When cancelled:
 - serialNumber = `null`
 - addedVia = `null`
 
-### 🔴 Hint 3 — Full solutions
+### 💡 Knowledge bits
+
+- On iOS, `NSDictionary` cannot store `nil`. If you want JS to receive `null`, you must write `NSNull()`. Otherwise the key disappears completely.
+- On Android, `Activity` cancellation/back-press can produce a `null` `Intent` or missing extras. `fromIntent()` is where you collapse those cases into one `CANCELLED` sentinel.
+- Once native returns the canonical shape consistently, the JS wrapper can stay very small and simply forward that typed result.
+
+### 🔴 Hint 3 - Full solutions
 
 <details>
 <summary><code>ios/module/AddLillieboxResult.swift</code></summary>
@@ -199,7 +240,7 @@ data class AddLillieboxResult(
         /**
          * Reconstruct from an Activity result [Intent].
          *
-         * Returns [CANCELLED] when the intent is null or missing the expected extras —
+         * Returns [CANCELLED] when the intent is null or missing the expected extras -
          * this covers both explicit cancellations and system back-presses that never
          * called [setResult].
          */
@@ -236,10 +277,14 @@ export function launchAddLilliebox(): Promise<AddLillieboxResult> {
 
 ---
 
-## Level 2 — Native owns navigation
+## Level 2 - Native owns navigation
 
 ### Goal
 JS triggers one method. Native handles the complete modal flow lifecycle.
+
+> Dependency note
+> - Level 2 builds on Level 1.
+> - If the modal opens and closes but JS always receives `{status:'cancelled', ...}`, the remaining bug is usually in the `AddLillieboxResult` helpers rather than the navigation code.
 
 ### 🟢 Hint 1
 iOS (`AddLillieboxModule.mm`):
@@ -256,7 +301,13 @@ Android:
 ### 🟡 Hint 2
 Compose/SwiftUI roots should drive navigation state and only return one final result object upward.
 
-### 🔴 Hint 3 — Full solutions
+### 💡 Knowledge bits
+
+- `getTurboModule(...)` is the New Architecture hook that returns the codegen-generated JSI wrapper. You usually keep it exactly as generated and focus your exercise work inside the exported methods.
+- `UiThreadUtil.runOnUiThread` matters because `currentActivity`, modal presentation, and activity launches must happen on the UI thread in RN New Architecture / Bridgeless mode.
+- `_isPresenting` on iOS and `pendingPromise` on Android solve the same problem: prevent two native flows from racing at once.
+
+### 🔴 Hint 3 - Full solutions
 
 <details>
 <summary><code>ios/module/AddLillieboxModule.mm</code></summary>
@@ -323,7 +374,7 @@ RCT_EXPORT_MODULE()
               resolve(result);
           }];
       } else {
-          // VC already dismissed by the system — resolve immediately
+          // VC already dismissed by the system - resolve immediately
           resolve(result);
       }
     });
@@ -565,7 +616,7 @@ struct AddLillieboxRootView: View {
 
 ---
 
-## Level 3 — SwiftUI + Compose multi-screen UI
+## Level 3 - SwiftUI + Compose multi-screen UI
 
 ### Goal
 Implement all screen UIs natively with platform idioms.
@@ -585,7 +636,13 @@ Android:
 ### 🟡 Hint 2
 For `QRScanView` (SwiftUI bridge), keep `coordinator.parent` updated in `updateUIViewController` to avoid stale closure captures.
 
-### 🔴 Hint 3 — Full solutions
+### 💡 Knowledge bits
+
+- The iOS workshop variant intentionally stops at QR + manual. Android adds a simulated NFC branch so participants can practice one more native navigation path without introducing CoreNFC setup on iOS.
+- `QRScanView` is a classic SwiftUI bridge: `makeUIViewController` creates the UIKit controller, `Coordinator` receives delegate callbacks, and `updateUIViewController` keeps closures/state fresh across re-renders.
+- On Android, treat the "Simulate QR" button as a stepping stone: get the navigation/result wiring working first, then swap in CameraX + ML Kit.
+
+### 🔴 Hint 3 - Full solutions
 
 <details>
 <summary><code>ios/screens/InputSelectionView.swift</code></summary>
@@ -1317,7 +1374,7 @@ fun NFCScanScreen(
         Spacer(modifier = Modifier.height(48.dp))
 
         Text(
-            text = "Warte auf NFC-Signal …",
+            text = "Warte auf NFC-Signal ...",
             style = MaterialTheme.typography.bodySmall,
             color = ToniesNavy.copy(alpha = 0.5f),
         )
@@ -1376,7 +1433,7 @@ yarn android
 
 ### Acceptance checks
 
-- Tapping “Lilliebox einrichten” opens a native flow
+- Tapping "Lilliebox einrichten" opens a native flow
 - Completing QR/manual/NFC returns `{status:'completed', serialNumber, addedVia}`
 - Cancelling returns `{status:'cancelled', serialNumber:null, addedVia:null}`
 - Android back/cancel also maps to cancelled sentinel
@@ -1387,8 +1444,14 @@ yarn android
 
 - **`NativeAddLillieboxModule` not found**
   - run codegen + rebuild; ensure package is linked/autolinked
-- **iOS modal doesn’t show**
+- **TypeScript says `'completed'` / `null` is not assignable to `never`**
+  - finish Level 0 first; the starter aliases intentionally use `never` until you replace them with the real unions
+- **iOS result is missing `serialNumber` / `addedVia` keys**
+  - use `NSNull()` when the Swift value is `nil`; plain `nil` removes the key from `NSDictionary`
+- **iOS modal doesn't show**
   - verify `RCTPresentedViewController()` is non-null and launch on main queue
+- **Android `currentActivity` is unexpectedly null**
+  - keep the access inside `UiThreadUtil.runOnUiThread { ... }` before launching the activity
 - **Android promise never resolves**
   - verify host activity implements `HasLillieboxLauncher` and clears `pendingPromise`
 - **QR screen crashes on Android**

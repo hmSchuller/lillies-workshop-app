@@ -1,3 +1,6 @@
+// Native UI layer.
+// Full AVFoundation capture session: camera input, QR metadata output, and
+// preview layer. Notifies its delegate exactly once on the main queue.
 @import AVFoundation;
 #import <UIKit/UIKit.h>
 #import "QRCameraViewController.h"

@@ -1,8 +1,14 @@
+// Core TurboModule plumbing.
+// Defines the TypeScript codegen spec: types and the Spec interface that RN
+// codegen uses to generate native bridge stubs on iOS and Android.
+// TurboModuleRegistry.getEnforcing enforces that the native module is present at runtime.
 import type {TurboModule} from 'react-native';
 import {TurboModuleRegistry} from 'react-native';
 
 // TODO (Level 0): tighten this to the exact status union.
 // Expected final: 'completed' | 'cancelled'
+// `never` is intentional in the starter: it forces you to replace the placeholder
+// with the real union before you manufacture result objects elsewhere.
 export type AddLillieboxStatus = never;
 
 // TODO (Level 0): tighten this to the exact added-via union.

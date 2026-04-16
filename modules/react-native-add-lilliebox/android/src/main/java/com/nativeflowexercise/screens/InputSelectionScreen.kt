@@ -1,3 +1,6 @@
+// Native UI layer.
+// Entry Compose screen offering QR, manual, and NFC paths plus a cancel button;
+// Android adds the NFC branch over iOS to demonstrate one extra native-owned route.
 package com.nativeflowexercise.screens
 
 import androidx.compose.foundation.layout.Arrangement

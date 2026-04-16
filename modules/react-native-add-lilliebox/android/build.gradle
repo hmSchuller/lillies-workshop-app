@@ -1,3 +1,6 @@
+// Core TurboModule plumbing.
+// Android library build script: enables Compose, the React Native Gradle plugin,
+// and declares CameraX, ML Kit, Navigation, and ViewModel dependencies.
 apply plugin: "com.android.library"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "org.jetbrains.kotlin.plugin.compose"

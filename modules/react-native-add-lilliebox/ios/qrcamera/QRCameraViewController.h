@@ -1,3 +1,6 @@
+// Native UI layer — platform interop glue.
+// Declares the AVFoundation QR scanner class and its delegate protocol.
+// Swift consumes this header via the ObjC bridging header.
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN

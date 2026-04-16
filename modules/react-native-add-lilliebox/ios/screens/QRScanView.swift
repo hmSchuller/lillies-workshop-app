@@ -1,3 +1,6 @@
+// Native UI layer.
+// SwiftUI/UIKit bridge for the QR step. This file exists because the camera
+// implementation is still UIKit/ObjC while the surrounding flow is SwiftUI.
 import SwiftUI
 
 // NOTE: QRCameraViewController is an Objective-C class.
@@ -24,7 +27,6 @@ struct QRScanView: UIViewControllerRepresentable {
 
         func qrCameraViewController(_ vc: QRCameraViewController, didScanCode code: String) {
             // TODO: forward scanned code to SwiftUI callback.
-            parent.onScan(code)
         }
     }
 
@@ -40,6 +42,5 @@ struct QRScanView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: QRCameraViewController, context: Context) {
         // TODO: keep coordinator parent in sync across SwiftUI re-renders.
-        context.coordinator.parent = self
     }
 }

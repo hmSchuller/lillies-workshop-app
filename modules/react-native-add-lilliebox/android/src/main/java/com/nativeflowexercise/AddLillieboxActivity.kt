@@ -1,6 +1,8 @@
+// Native UI layer.
+// Host Activity reserved for the native-owned flow. In the finished exercise it
+// will render the Compose graph and hand one result back to the TurboModule.
 package com.nativeflowexercise
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +26,7 @@ class AddLillieboxActivity : AppCompatActivity() {
         setContent {
             MaterialTheme {
                 Button(onClick = {
-                    setResult(RESULT_CANCELED, Intent())
+                    setResult(RESULT_CANCELED)
                     finish()
                 }) {
                     Text("AddLillieboxActivity not implemented")

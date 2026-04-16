@@ -1,5 +1,7 @@
+// Core TurboModule plumbing.
+// Shared iOS result model for the native flow. Once Level 1 is implemented,
+// this file centralises how Swift values are converted into the JS payload.
 import Foundation
-
 /// The result returned to JS after the Add Lilliebox flow completes.
 ///
 /// TODO (Level 1): Implement a robust result-pattern mapper used by native + JS.
@@ -26,6 +28,7 @@ struct AddLillieboxResult {
     /// Convenience factory for a cancelled result.
     static var cancelled: AddLillieboxResult {
         // TODO: Return the canonical cancelled shape.
+        // This fallback keeps later levels compiling while you work through Level 1.
         AddLillieboxResult(status: "cancelled", serialNumber: nil, addedVia: nil)
     }
 }

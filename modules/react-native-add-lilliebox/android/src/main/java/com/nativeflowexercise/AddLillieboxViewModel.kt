@@ -1,3 +1,6 @@
+// Platform interop glue.
+// ViewModel that holds the pending JS promise across the Activity result round-trip;
+// survives configuration changes so the promise is never silently dropped.
 package com.nativeflowexercise
 
 import androidx.lifecycle.ViewModel

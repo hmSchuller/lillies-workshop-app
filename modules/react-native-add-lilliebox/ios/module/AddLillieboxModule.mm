@@ -1,3 +1,6 @@
+// Core TurboModule plumbing.
+// ObjC++ home of the iOS TurboModule implementation. This file is required by
+// RN New Architecture; the exercise fills in how it presents the native flow.
 #import "AddLillieboxModule.h"
 
 #import <React/RCTBridgeModule.h>

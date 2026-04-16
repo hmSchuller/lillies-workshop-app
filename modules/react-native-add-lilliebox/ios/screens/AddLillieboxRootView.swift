@@ -1,10 +1,13 @@
+// Native UI layer.
+// Intended SwiftUI root for the iOS flow. The finished exercise gives this file
+// ownership of navigation state so child screens stay simple and callback-based.
 import Foundation
 import SwiftUI
 
 // MARK: - Navigation destinations
 
-/// TODO (Level 2 iOS): Define typed navigation destinations for the flow.
-/// Example final enum cases: qrScan, manualInput, nfcScan
+/// TODO (Level 2 iOS): Define typed navigation destinations for the iOS flow.
+/// Example final enum cases: qrScan, manualInput
 enum AddLillieboxDestination: Hashable {
     case placeholder
 }
@@ -16,7 +19,7 @@ enum AddLillieboxDestination: Hashable {
 /// Final behaviour should:
 /// - own NavigationStack + NavigationPath
 /// - start on input selection
-/// - push to QR/manual/NFC screens
+/// - push to QR/manual screens (Android adds the NFC branch separately)
 /// - complete with AddLillieboxResult(status: "completed", ...)
 /// - cancel with AddLillieboxResult.cancelled
 struct AddLillieboxRootView: View {

@@ -1,3 +1,6 @@
+// Native UI layer.
+// Android-only NFC step. The finished exercise can show a waiting UI, but the
+// workshop keeps it simulation-friendly so no real NFC hardware is required.
 package com.nativeflowexercise.screens
 
 import androidx.compose.foundation.layout.Arrangement

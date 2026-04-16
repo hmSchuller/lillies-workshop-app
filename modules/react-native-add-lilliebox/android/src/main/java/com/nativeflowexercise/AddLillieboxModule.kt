@@ -1,3 +1,6 @@
+// Core TurboModule plumbing.
+// Android entrypoint for the TurboModule. This file is required by RN New Architecture;
+// the exercise fills in how it hops to the UI thread and launches the native flow.
 package com.nativeflowexercise
 
 import com.facebook.react.bridge.Promise
