@@ -206,6 +206,8 @@ constructor(
     }
   }
 
+  // ── Provided helpers (do not modify) ──────────────────────────────────────
+
   private fun emitAndRefresh() {
     updateLabel()
     emitChange(selectedDateTime.toInstant())

@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig = {
     # Standard C++20 for React Native Fabric headers.
     "CLANG_CXX_LANGUAGE_STANDARD" => "c++20",
-    "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/Headers/Public/React-Codegen/react/renderer/components/RNDatePickerExerciseSpec\""
+    "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/Headers/Public/React-Codegen/react/renderer/components/NativeDatePickerView\""
   }
 
   install_modules_dependencies(s)

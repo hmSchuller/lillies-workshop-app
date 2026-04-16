@@ -57,7 +57,8 @@ public final class RNDatePickerView: UIView {
   // MARK: - @objc prop setters (names match RNDatePickerViewProtocol selectors)
 
   /// Sets the currently selected date from an ISO 8601 string.
-  /// The date is clamped to the current minimum/maximum bounds before being applied.
+  /// Should parse the ISO string, clamp it to current min/max bounds, and
+  /// call datePicker.setDate(_:animated:false) if the value actually changed.
   @objc public func setDateISO(_ iso: String) {
     guard let date = parseDate(from: iso) else { return }
     let clamped = clamp(date)
@@ -67,7 +68,7 @@ public final class RNDatePickerView: UIView {
   }
 
   /// Sets the lower bound. Pass `nil` or an empty string to clear it.
-  /// If the current date falls below the new minimum it is clamped immediately.
+  /// After updating datePicker.minimumDate, clamp the current date if needed.
   @objc public func setMinimumDateISO(_ iso: String?) {
     datePicker.minimumDate = iso.flatMap { parseDate(from: $0) }
     let clamped = clamp(datePicker.date)
@@ -77,7 +78,7 @@ public final class RNDatePickerView: UIView {
   }
 
   /// Sets the upper bound. Pass `nil` or an empty string to clear it.
-  /// If the current date exceeds the new maximum it is clamped immediately.
+  /// After updating datePicker.maximumDate, clamp the current date if needed.
   @objc public func setMaximumDateISO(_ iso: String?) {
     datePicker.maximumDate = iso.flatMap { parseDate(from: $0) }
     let clamped = clamp(datePicker.date)

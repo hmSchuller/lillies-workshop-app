@@ -24,6 +24,7 @@ class RNDatePickerManager :
   override fun createViewInstance(context: ThemedReactContext): DatePickerButton =
       DatePickerButton(context)
 
+
   @ReactProp(name = "date")
   override fun setDate(view: DatePickerButton, date: String?) {
     view.setDate(parseInstant(date) ?: Instant.now())

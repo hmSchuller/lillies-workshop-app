@@ -3,10 +3,10 @@
 
 #import <React/RCTConversions.h>
 
-#import <react/renderer/components/RNDatePickerExerciseSpec/ComponentDescriptors.h>
-#import <react/renderer/components/RNDatePickerExerciseSpec/EventEmitters.h>
-#import <react/renderer/components/RNDatePickerExerciseSpec/Props.h>
-#import <react/renderer/components/RNDatePickerExerciseSpec/RCTComponentViewHelpers.h>
+#import <react/renderer/components/NativeDatePickerView/ComponentDescriptors.h>
+#import <react/renderer/components/NativeDatePickerView/EventEmitters.h>
+#import <react/renderer/components/NativeDatePickerView/Props.h>
+#import <react/renderer/components/NativeDatePickerView/RCTComponentViewHelpers.h>
 
 using namespace facebook::react;
 
@@ -49,8 +49,6 @@ static NSString *RNDPModeString(NativeDatePickerViewMode mode)
     _pickerView = [[RNDatePickerView alloc] initWithFrame:self.bounds];
     self.contentView = _pickerView;
 
-    // Wire the Swift picker's user-interaction callback to the Fabric event emitter.
-    // Capture self weakly to avoid a retain cycle between the shell and the Swift view.
     __weak RNDatePickerFabricView *weakSelf = self;
     _pickerView.onChange = ^(NSString *isoString) {
       [weakSelf handlePickerChange:isoString];
@@ -73,13 +71,10 @@ static NSString *RNDPModeString(NativeDatePickerViewMode mode)
   const auto &oldDatePickerProps = static_cast<const NativeDatePickerViewProps &>(*_props);
   const auto &newDatePickerProps = static_cast<const NativeDatePickerViewProps &>(*props);
 
-  // Apply mode before bounds/date so that UIDatePicker interprets ranges correctly.
   if (oldDatePickerProps.mode != newDatePickerProps.mode) {
     [_pickerView setPickerMode:RNDPModeString(newDatePickerProps.mode)];
   }
 
-  // Bounds first — the Swift setters clamp the current picker date to the new
-  // range immediately, matching the behaviour of the original integration code.
   if (oldDatePickerProps.minimumDate != newDatePickerProps.minimumDate) {
     NSString *minDate = newDatePickerProps.minimumDate.empty()
         ? nil
@@ -99,7 +94,6 @@ static NSString *RNDPModeString(NativeDatePickerViewMode mode)
     [_pickerView setPickerAccentColor:color];
   }
 
-  // Apply the date value last so clamping against the already-updated bounds is correct.
   if (oldDatePickerProps.date != newDatePickerProps.date) {
     if (!newDatePickerProps.date.empty()) {
       [_pickerView setDateISO:@(newDatePickerProps.date.c_str())];
